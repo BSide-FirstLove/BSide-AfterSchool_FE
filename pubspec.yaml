@@ -67,7 +67,6 @@ flutter:
    - assets/images/gifTest.gif
    - assets/images/splash.gif
    - assets/images/imgTest.png
-   - assets/images/kakao_login_medium_wide.png
    - assets/images/kakao_login_large_wide.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

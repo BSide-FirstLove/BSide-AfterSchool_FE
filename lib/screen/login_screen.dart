@@ -17,17 +17,25 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLogin = false;
 
   _checkToken() async {
-    try{
-      await UserApi.instance.accessTokenInfo();
-      setState(() {
-        isLogin = true;
-      });
-    } catch (error) {
-      if (error is KakaoException && error.isInvalidTokenError()) {
-        print('토큰 만료 $error');
-      } else {
-        print('토큰 정보 조회 실패 $error');
+    if (await AuthApi.instance.hasToken()) {
+      try {
+        AccessTokenInfo tokenInfo =
+        await UserApi.instance.accessTokenInfo();
+        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
+        _loginSuccess();
+        setState(() {
+          isLogin = true;
+        });
+      } catch (error) {
+        if (error is KakaoException && error.isInvalidTokenError()) {
+          print('토큰 만료 $error');
+        } else {
+          print('토큰 정보 조회 실패 $error');
+        }
+        _kakaoLogin();
       }
+    } else {
+      _kakaoLogin();
     }
   }
 
@@ -117,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               padding: EdgeInsets.fromLTRB(20, 550, 20, 50),
               child: TextButton(
-                  onPressed: _kakaoLogin,
+                  onPressed: _checkToken,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.asset('assets/images/kakao_login_large_wide.png'),
