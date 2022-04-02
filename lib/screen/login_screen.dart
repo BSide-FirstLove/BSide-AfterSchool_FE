@@ -1,42 +1,29 @@
 import 'package:after_school/model/state.dart';
 import 'package:after_school/screen/home_screen.dart';
+import 'package:after_school/util/my_http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:after_school/model/user.dart' as my_user;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../model/api/login.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key, required this.isLogin}) : super(key: key);
+  final bool isLogin;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isLogin = false;
+  late bool isLogin;
 
-  _checkToken() async {
-    if (await AuthApi.instance.hasToken()) {
-      try {
-        AccessTokenInfo tokenInfo =
-        await UserApi.instance.accessTokenInfo();
-        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
-        _loginSuccess();
-        setState(() {
-          isLogin = true;
-        });
-      } catch (error) {
-        if (error is KakaoException && error.isInvalidTokenError()) {
-          print('토큰 만료 $error');
-        } else {
-          print('토큰 정보 조회 실패 $error');
-        }
-        _kakaoLogin();
-      }
-    } else {
-      _kakaoLogin();
-    }
+  @override
+  void initState() {
+    super.initState();
+    isLogin = widget.isLogin;
   }
 
   _kakaoLogin() async {
@@ -45,8 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공11');
-        print(token);
-        _loginSuccess();
+        _loginSuccess(token.accessToken);
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
 
@@ -57,8 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           print('카카오계정으로 로그인 성공22');
-          print(token);
-          _loginSuccess();
+          _loginSuccess(token.accessToken);
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
         }
@@ -67,22 +52,28 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공33');
-        print(token);
-        _loginSuccess();
+        _loginSuccess(token.accessToken);
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
       }
     }
   }
 
-  _loginSuccess() async {
-    await _getUser();
+  _loginSuccess(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('kakaoToken', token);
+    // await _getUser();
+    MyHttp().setAuth(token);
+    await _getJwtToken(token);
     setState(() {
       isLogin = true;
     });
   }
 
-  _loginFailed() { }
+  Future<String> _getJwtToken(String token) async {
+    Map<String, dynamic> responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    return Login.fromJson(responseBody).nickName;
+  }
 
   _getUser() async {
     try {
@@ -92,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
           my_user.User.fromKakao(kakaoUser)
       );
       print('사용자 정보 요청 성공'
+          '\n토큰: ${kakaoUser.groupUserToken}'
           '\n회원번호: ${kakaoUser.id}'
           '\n이미지: ${kakaoUser.kakaoAccount?.profile?.profileImageUrl}'
           '\n이미지썸넬: ${kakaoUser.kakaoAccount?.profile?.thumbnailImageUrl}'
@@ -125,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               padding: EdgeInsets.fromLTRB(20, 550, 20, 50),
               child: TextButton(
-                  onPressed: _checkToken,
+                  onPressed: _kakaoLogin,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.asset('assets/images/kakao_login_large_wide.png'),

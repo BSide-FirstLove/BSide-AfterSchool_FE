@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -29,11 +30,42 @@ class _MyappState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    //  build 이후 실행
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) => _checkLogin());
+  }
+
+  _checkLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLogin = false;
+    if (await AuthApi.instance.hasToken()) {
+      try {
+        AccessTokenInfo tokenInfo =
+        await UserApi.instance.accessTokenInfo();
+        print('토큰 유효성 체크 성공 $tokenInfo');
+        String? kakaoToken = prefs.getString('kakaoToken');
+        if(kakaoToken != null){
+          print(kakaoToken);
+          isLogin = true;
+        } else {
+          isLogin = false;
+        }
+      } catch (error) {
+        if (error is KakaoException && error.isInvalidTokenError()) {
+          print('토큰 만료 $error');
+        } else {
+          print('토큰 정보 조회 실패 $error');
+        }
+        isLogin = false;
+      }
+    } else {
+      isLogin = false;
+    }
     Future.delayed(
         const Duration(seconds: 4),
         () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              MaterialPageRoute(builder: (context) => LoginScreen(isLogin: isLogin)),
             ));
   }
 
