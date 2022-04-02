@@ -1,5 +1,6 @@
+import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
-import 'package:after_school/screen/home_screen.dart';
+import 'package:after_school/screen/essential_info_screen.dart';
 import 'package:after_school/util/my_http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,23 +9,16 @@ import 'package:provider/provider.dart';
 import 'package:after_school/model/user.dart' as my_user;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/api/login.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key, required this.isLogin}) : super(key: key);
-  final bool isLogin;
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late bool isLogin;
-
-  @override
-  void initState() {
-    super.initState();
-    isLogin = widget.isLogin;
-  }
 
   _kakaoLogin() async {
     // 카카오톡 설치 여부 확인
@@ -64,15 +58,16 @@ class _LoginScreenState extends State<LoginScreen> {
     await prefs.setString('kakaoToken', token);
     // await _getUser();
     MyHttp().setAuth(token);
-    await _getJwtToken(token);
-    setState(() {
-      isLogin = true;
-    });
-  }
-
-  Future<String> _getJwtToken(String token) async {
-    Map<String, dynamic> responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
-    return Login.fromJson(responseBody).nickName;
+    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    Login modelLogin = Login.fromJson(responseBody.data);
+    if(modelLogin.isNewMember) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => AddInfoScreen(nickname: modelLogin.nickname)));
+    }else{
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+    }
   }
 
   _getUser() async {
@@ -95,8 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLogin? const HomeScreen() :
-    Scaffold(
+    return Scaffold(
         body: Stack(
           children: [
             SizedBox(

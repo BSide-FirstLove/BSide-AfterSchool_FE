@@ -1,5 +1,9 @@
+import 'package:after_school/model/api/login.dart';
+import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
+import 'package:after_school/screen/home_screen.dart';
 import 'package:after_school/screen/login_screen.dart';
+import 'package:after_school/util/my_http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -23,7 +27,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyappState createState() => _MyappState();
+  State<StatefulWidget> createState() => _MyappState();
 }
 
 class _MyappState extends State<MyApp> {
@@ -36,17 +40,22 @@ class _MyappState extends State<MyApp> {
   }
 
   _checkLogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLogin = false;
     if (await AuthApi.instance.hasToken()) {
       try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         AccessTokenInfo tokenInfo =
         await UserApi.instance.accessTokenInfo();
         print('토큰 유효성 체크 성공 $tokenInfo');
         String? kakaoToken = prefs.getString('kakaoToken');
         if(kakaoToken != null){
           print(kakaoToken);
-          isLogin = true;
+          MyHttp().setAuth(kakaoToken);
+          Login modelLogin = await _login(kakaoToken);
+          if(!modelLogin.isNewMember) {
+            MyHttp().setAuth(modelLogin.appToken!);
+            isLogin = true;
+          }
         } else {
           isLogin = false;
         }
@@ -65,8 +74,13 @@ class _MyappState extends State<MyApp> {
         const Duration(seconds: 4),
         () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => LoginScreen(isLogin: isLogin)),
+              MaterialPageRoute(builder: (context) => isLogin? HomeScreen() : LoginScreen()),
             ));
+  }
+
+  Future<Login> _login(String token) async {
+    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    return Login.fromJson(responseBody.data);
   }
 
   @override
