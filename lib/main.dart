@@ -16,8 +16,18 @@ void main() async {
   runApp(
       ChangeNotifierProvider(
         create: (context) => UserState(),
-        child: const MaterialApp(
-          home: MyApp(),
+        child: MaterialApp(
+          theme: ThemeData(
+            primaryColor: Colors.white10
+          ),
+          // home: MyApp(),
+          initialRoute: "/",
+          routes: {
+            '/':(_) => const MyApp(),
+            // '/search': (_) => {},
+            '/login': (_) => const LoginScreen(),
+            '/main': (_) => const HomeScreen(),
+          },
         ),
       )
   );
@@ -72,10 +82,10 @@ class _MyappState extends State<MyApp> {
     }
     Future.delayed(
         const Duration(seconds: 4),
-        () => Navigator.pushReplacement(
+        () => Navigator.pushReplacementNamed(
               context,
-              MaterialPageRoute(builder: (context) => isLogin? HomeScreen() : LoginScreen()),
-            ));
+              isLogin? '/main' : '/login'),
+            );
   }
 
   Future<Login> _login(String token) async {

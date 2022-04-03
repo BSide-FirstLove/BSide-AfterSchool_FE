@@ -1,6 +1,7 @@
 import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
-import 'package:after_school/screen/essential_info_screen.dart';
+import 'package:after_school/resources/Strings.dart';
+import 'package:after_school/screen/add_name_screen.dart';
 import 'package:after_school/util/my_http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
     ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
     Login modelLogin = Login.fromJson(responseBody.data);
     if(modelLogin.isNewMember) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => AddInfoScreen(nickname: modelLogin.nickname)));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => AddName(nickname: modelLogin.nickname)));
     }else{
       Navigator.pushReplacement(
         context,
@@ -103,8 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("소중한 \n추억을 찾기 위한", style: TextStyle(fontSize: 40, height: 1.2)),
-                    Text("3초", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, height: 1.2))
+                    Text(Strings.loginText1, style: TextStyle(fontSize: 40, height: 1.2)),
+                    Text(Strings.loginText2, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, height: 1.2))
                   ],
                 )
             ),
