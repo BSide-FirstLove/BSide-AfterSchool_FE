@@ -35,6 +35,11 @@ dependencies:
   provider: ^6.0.2 # 앱 상태값 관리
   http: ^0.13.4
   shared_preferences: ^2.0.13 # 영구 저장소
+#  flutter_google_places_hoc081098: ^1.0.1 # 장소 자동 완성
+  flutter_google_places:
+    git:
+      url: https://github.com/fluttercommunity/flutter_google_places
+      ref: v0.3.2
 
 
   # The following adds the Cupertino Icons font to your application.

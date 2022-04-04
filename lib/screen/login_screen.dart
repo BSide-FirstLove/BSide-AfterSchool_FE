@@ -58,17 +58,20 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('kakaoToken', token);
     // await _getUser();
-    MyHttp().setAuth(token);
-    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
-    Login modelLogin = Login.fromJson(responseBody.data);
-    if(modelLogin.isNewMember) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => AddName(nickname: modelLogin.nickname)));
-    }else{
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-      );
-    }
+
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AddName(nickname: "한재현")));
+
+    // MyHttp().setAuth(token);
+    // ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    // Login modelLogin = Login.fromJson(responseBody.data);
+    // if(modelLogin.isNewMember) {
+    //   Navigator.push(context, MaterialPageRoute(builder: (_) => AddName(nickname: modelLogin.nickname)));
+    // }else{
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(builder: (_) => HomeScreen()),
+    //   );
+    // }
   }
 
   _getUser() async {

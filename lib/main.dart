@@ -60,14 +60,12 @@ class _MyappState extends State<MyApp> {
         String? kakaoToken = prefs.getString('kakaoToken');
         if(kakaoToken != null){
           print(kakaoToken);
-          MyHttp().setAuth(kakaoToken);
-          Login modelLogin = await _login(kakaoToken);
-          if(!modelLogin.isNewMember) {
-            MyHttp().setAuth(modelLogin.appToken!);
-            isLogin = true;
-          }
-        } else {
-          isLogin = false;
+          // MyHttp().setAuth(kakaoToken);
+          // Login modelLogin = await _login(kakaoToken);
+          // if(!modelLogin.isNewMember) {
+          //   MyHttp().setAuth(modelLogin.appToken!);
+          //   isLogin = true;
+          // }
         }
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {
@@ -75,10 +73,7 @@ class _MyappState extends State<MyApp> {
         } else {
           print('토큰 정보 조회 실패 $error');
         }
-        isLogin = false;
       }
-    } else {
-      isLogin = false;
     }
     Future.delayed(
         const Duration(seconds: 4),
