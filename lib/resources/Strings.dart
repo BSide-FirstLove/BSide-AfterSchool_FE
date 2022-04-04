@@ -16,4 +16,5 @@ class Strings {
   static const String addInfoText2 = "더 재미있는 방과후를 위해";
   static const String addInfoText3 = "추가 정보";
   static const String addInfoText4 = "를 입력해주세요.";
+  static const String addInfoProfile = "프로필 사진";
 }

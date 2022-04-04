@@ -77,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
   _getUser() async {
     try {
       User kakaoUser = await UserApi.instance.me();
-      // context.watch<UserState>().add(
-      Provider.of<UserState>(context, listen: false).add(
+      // Provider.of<UserState>(context, listen: false).add(
+      context.watch<UserState>().add(
           my_user.User.fromKakao(kakaoUser)
       );
       print('사용자 정보 요청 성공'

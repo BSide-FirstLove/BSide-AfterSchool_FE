@@ -1,5 +1,7 @@
+import 'package:after_school/model/state.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddInfoScreen extends StatefulWidget {
   const AddInfoScreen({Key? key}) : super(key: key);
@@ -9,6 +11,15 @@ class AddInfoScreen extends StatefulWidget {
 }
 
 class _AddInfoScreenState extends State<AddInfoScreen> {
+  late String _userImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _userImage = context.read<UserState>().user.single.image;
+    print(_userImage);
+  }
+
   @override
   Widget build(BuildContext context) {
     final nameInputController = TextEditingController();
@@ -76,9 +87,9 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                 padding: EdgeInsets.all(20),
                 child: Row(
                   children: [
-                    Icon(Icons.info, color: Colors.blue),
+                    Text(Strings.addInfoProfile),
                     SizedBox(width: 5),
-                    Text("닉네임으로 해도 괜찮아 어쩌고저쩌고.", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),)
+
                   ],
                 )
             ),
