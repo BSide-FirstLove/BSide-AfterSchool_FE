@@ -57,15 +57,15 @@ class _LoginScreenState extends State<LoginScreen> {
   _loginSuccess(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('kakaoToken', token);
-    // await _getUser();
+    await _getUser();
 
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AddName(nickname: "한재현")));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: "한재현")));
 
     // MyHttp().setAuth(token);
     // ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
     // Login modelLogin = Login.fromJson(responseBody.data);
     // if(modelLogin.isNewMember) {
-    //   Navigator.push(context, MaterialPageRoute(builder: (_) => AddName(nickname: modelLogin.nickname)));
+    //   Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname)));
     // }else{
     //   Navigator.pushReplacement(
     //     context,
@@ -107,8 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(Strings.loginText1, style: TextStyle(fontSize: 40, height: 1.2)),
-                    Text(Strings.loginText2, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, height: 1.2))
+                    Text(Strings.loginText1, style: Theme.of(context).textTheme.subtitle1),
+                    Text(Strings.loginText2, style: Theme.of(context).textTheme.subtitle2)
                   ],
                 )
             ),

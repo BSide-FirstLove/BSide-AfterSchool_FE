@@ -1,6 +1,7 @@
 import 'package:after_school/model/api/login.dart';
 import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
+import 'package:after_school/resources/Theme.dart';
 import 'package:after_school/screen/home_screen.dart';
 import 'package:after_school/screen/login_screen.dart';
 import 'package:after_school/util/my_http.dart';
@@ -17,9 +18,7 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => UserState(),
         child: MaterialApp(
-          theme: ThemeData(
-            primaryColor: Colors.white10
-          ),
+          theme: myThemeData(),
           // home: MyApp(),
           initialRoute: "/",
           routes: {

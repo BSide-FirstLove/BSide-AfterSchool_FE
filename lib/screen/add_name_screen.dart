@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'add_school_screen.dart';
 
-class AddName extends StatelessWidget {
-  const AddName({Key? key, required this.nickname}) : super(key: key);
+class AddNameScreen extends StatelessWidget {
+  const AddNameScreen({Key? key, required this.nickname}) : super(key: key);
   final String nickname;
 
   @override
@@ -12,33 +12,47 @@ class AddName extends StatelessWidget {
     final nameInputController = TextEditingController(text: nickname);
 
     _clickNext() {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => AddSchool(nickname: nameInputController.text)));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => AddSchoolScreen(nickname: nameInputController.text)));
     }
 
     return Scaffold(
       //  키보드 밀림 방지
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        //  경계선 제거
-        // elevation: 0,
-        // backgroundColor: Colors.white10,
-        // leading: BackButton(color: Colors.black45),
+        title: Text('1/3'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
-            child: Text(
-              Strings.addNameText1,
-              style: TextStyle(fontSize: 30, color: Colors.black45),)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Strings.addNameText1,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Row(children: [
+                  Text(
+                    Strings.addNameLabel1,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(
+                    Strings.addNameText2,
+                    style: Theme.of(context).textTheme.headline5,
+                  )
+                ],),
+              ],
+            )
+          ),
           Container(
             padding: EdgeInsets.all(20),
             child: TextField(
               controller: nameInputController,
               maxLines: 1,
-              // decoration: InputDecoration(
-              //     border: OutlineInputBorder(), labelText: '이름'),
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: Strings.addNameLabel1),
             ),
           ),
           Container(
@@ -47,7 +61,7 @@ class AddName extends StatelessWidget {
               children: [
                 Icon(Icons.info, color: Colors.blue),
                 SizedBox(width: 5),
-                Text(Strings.addNameText2, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),)
+                Text(Strings.addNameText3, style: Theme.of(context).textTheme.caption,)
               ],
             )
           ),
