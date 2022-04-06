@@ -19,6 +19,9 @@ class Strings {
   static const String addSchoolText2 = "학교를 입력해주세요.";
   static const String addSchoolText3 = "가입 완료 후 학교를 추가할 수 있으니 걱정하지 마세요.";
   static const String addSchoolName = "학교명";
+  static const String addSchoolStartYear = "입학년도";
+  static const String addSchoolEndYear = "졸업년도";
+
   //  Add Info Screen
   static const String addSchoolPage = "3 / 3";
   static const String addInfoText1 = "가입이 완료되었어요!";

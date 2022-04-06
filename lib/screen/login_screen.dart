@@ -94,11 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-    print(21.w);
-    print(21.h);
-    print(21.sp);
-
     return Scaffold(
         body: Stack(
           children: [

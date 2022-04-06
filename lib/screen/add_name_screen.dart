@@ -1,6 +1,7 @@
 import 'package:after_school/resources/MyColor.dart';
 import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
+import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:flutter/material.dart';
 
 import '../util/MyWidget.dart';
@@ -37,7 +38,7 @@ class AddNameScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              padding: const EdgeInsets.all(Strings.bodyPadding),
+              padding: EdgeInsets.only(left: 16.w, top: 16.h, bottom: 16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,12 +61,12 @@ class AddNameScreen extends StatelessWidget {
                 ],
               )),
           Container(
-              padding: EdgeInsets.only(left: Strings.bodyPadding),
+              padding: EdgeInsets.only(left: 16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
                     child: Text(Strings.addNameLabel2),
                   ),
                   Row(
@@ -74,6 +75,9 @@ class AddNameScreen extends StatelessWidget {
                         child: TextField(
                           controller: nameInputController,
                           maxLines: 1,
+                          decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.cancel_outlined)
+                          ),
                         ),
                       ),
                       IconButton(
@@ -85,16 +89,16 @@ class AddNameScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.h),
                     child: Text(Strings.addNameText3, style: MyTextStyle.bodyTextAlert)
                   )
                 ],
               )),
           Container(
-            padding: const EdgeInsets.only(top: 218),
+            padding: EdgeInsets.only(top: 218.h),
             child: Center(
-              child: myButton(context, 300, 50, Color(0xFFBBBBBB), "다음", _clickNext),
+              child: myButton(300.w, 50.h, MyColor.buttonGrey, "다음", _clickNext),
             ),
             //   OutlinedButton(
             //     style: OutlinedButton.styleFrom(

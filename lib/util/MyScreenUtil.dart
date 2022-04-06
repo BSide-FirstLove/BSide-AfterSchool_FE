@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //  Device 기기에 따른 크기 통일
 class MyScreenUtil {
   static const Size defaultSize = Size(360, 640);
-  static late final MyScreenUtil _instance;
+  static late MyScreenUtil _instance;
 
   // late BuildContext context;
   late Size uiSize;

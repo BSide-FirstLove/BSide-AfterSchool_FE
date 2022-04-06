@@ -12,7 +12,7 @@ class MyTextStyle {
   static const TextStyle bodyTextMedium2 =
     TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Color(0xFFFFB038));
   static const TextStyle bodyTextLabel1 =
-    TextStyle(fontSize: 14, color: Color(0xFF000000), fontWeight: FontWeight.w400);
+    TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400);
   static const TextStyle bodyTextAlert =
     TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFBABABA), fontSize: 13);
 }
