@@ -1,3 +1,4 @@
+import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:flutter/material.dart';
 
@@ -19,56 +20,61 @@ class AddNameScreen extends StatelessWidget {
       //  키보드 밀림 방지
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: Text('1/3'),
+        title: Text(Strings.loginTextPage),
+        actions: [
+          TextButton(onPressed: _clickNext, child: Text("다음", style: TextStyle(color: Colors.black)))
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   Strings.addNameText1,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: MyTextStyle.bodyTextMedium1,
                 ),
                 Row(children: [
                   Text(
                     Strings.addNameLabel1,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: MyTextStyle.bodyTextMedium2,
                   ),
                   Text(
                     Strings.addNameText2,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: MyTextStyle.bodyTextMedium1,
                   )
                 ],),
               ],
             )
           ),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(16),
             child: TextField(
               controller: nameInputController,
               maxLines: 1,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: Strings.addNameLabel1),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(Icons.info, color: Colors.blue),
-                SizedBox(width: 5),
-                Text(Strings.addNameText3, style: Theme.of(context).textTheme.caption,)
+                Text(Strings.addNameText3, style: MyTextStyle.bodyTextAlert)
               ],
             )
           ),
           Container(
             padding: EdgeInsets.only(top: 50),
             child: Center(
-              child: TextButton(
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  fixedSize: Size(300, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))
+                  )
+                ),
                 child: Text("다음"),
                 onPressed: _clickNext,
               ),

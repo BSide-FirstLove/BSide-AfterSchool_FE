@@ -1,5 +1,6 @@
 import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
+import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:after_school/screen/add_name_screen.dart';
 import 'package:after_school/util/my_http.dart';
@@ -59,26 +60,24 @@ class _LoginScreenState extends State<LoginScreen> {
     await prefs.setString('kakaoToken', token);
     await _getUser();
 
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: "한재현")));
-
-    // MyHttp().setAuth(token);
-    // ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
-    // Login modelLogin = Login.fromJson(responseBody.data);
-    // if(modelLogin.isNewMember) {
-    //   Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname)));
-    // }else{
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(builder: (_) => HomeScreen()),
-    //   );
-    // }
+    MyHttp().setAuth(token);
+    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    Login modelLogin = Login.fromJson(responseBody.data);
+    if(modelLogin.isNewMember) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname)));
+    }else{
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+    }
   }
 
   _getUser() async {
     try {
       User kakaoUser = await UserApi.instance.me();
-      // Provider.of<UserState>(context, listen: false).add(
-      context.watch<UserState>().add(
+      Provider.of<UserState>(context, listen: false).add(
+      // context.watch<UserState>().add(
           my_user.User.fromKakao(kakaoUser)
       );
       print('사용자 정보 요청 성공'
@@ -106,9 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.fromLTRB(20, 100, 20, 50),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(Strings.loginText1, style: Theme.of(context).textTheme.subtitle1),
-                    Text(Strings.loginText2, style: Theme.of(context).textTheme.subtitle2)
+                  children: const [
+                    Text(Strings.loginText1, style: MyTextStyle.bodyTextLarge1),
+                    Text(Strings.loginText2, style: MyTextStyle.bodyTextLarge2)
                   ],
                 )
             ),

@@ -1,4 +1,5 @@
 import 'package:after_school/model/state.dart';
+import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,10 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('3/3'),
+        title: Text(Strings.addSchoolPage),
+        actions: [
+          TextButton(onPressed: _clickNext, child: Text("다음", style: TextStyle(color: Colors.black)))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -43,20 +47,20 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                   children: [
                     Text(
                       Strings.addInfoText1,
-                      style: Theme.of(context).textTheme.headline4,),
+                      style: MyTextStyle.bodyTextLarge3),
                     SizedBox(height: 20,),
                     Text(
                       Strings.addInfoText2,
-                      style: Theme.of(context).textTheme.headline5,),
+                      style: MyTextStyle.bodyTextMedium1),
                     Row(
                       children: [
                         Text(
                           Strings.addInfoText3,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: MyTextStyle.bodyTextMedium2,
                         ),
                         Text(
                           Strings.addInfoText4,
-                          style: Theme.of(context).textTheme.headline5,
+                          style: MyTextStyle.bodyTextMedium1,
                         ),
                       ],
                     )
@@ -93,15 +97,15 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                   ],
                 )
             ),
-            Container(
-              padding: EdgeInsets.only(top: 50),
-              child: Center(
-                child: TextButton(
-                  child: Text("다음"),
-                  onPressed: () {},
-                ),
-              ),
-            )
+            // Container(
+            //   padding: EdgeInsets.only(top: 50),
+            //   child: Center(
+            //     child: TextButton(
+            //       child: Text("다음"),
+            //       onPressed: () {},
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

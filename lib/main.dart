@@ -59,12 +59,12 @@ class _MyappState extends State<MyApp> {
         String? kakaoToken = prefs.getString('kakaoToken');
         if(kakaoToken != null){
           print(kakaoToken);
-          // MyHttp().setAuth(kakaoToken);
-          // Login modelLogin = await _login(kakaoToken);
-          // if(!modelLogin.isNewMember) {
-          //   MyHttp().setAuth(modelLogin.appToken!);
-          //   isLogin = true;
-          // }
+          MyHttp().setAuth(kakaoToken);
+          Login modelLogin = await _login(kakaoToken);
+          if(!modelLogin.isNewMember) {
+            MyHttp().setAuth(modelLogin.appToken!);
+            isLogin = true;
+          }
         }
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {

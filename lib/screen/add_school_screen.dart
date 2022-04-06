@@ -1,3 +1,4 @@
+import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:after_school/screen/add_info_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,16 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
         apiKey: dotenv.get('GOOGLE_APP_KEY'),
         mode: Mode.overlay, // Mode.fullscreen
         language: "ko",
-        decoration: InputDecoration(
+        logo: Text(""),
+        decoration: const InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white10)
+          ),
+          filled: false,
           hintText: '학교',
         )
       );
-      nameInputController.text =  p?.structuredFormatting?.mainText ??"error";
+      nameInputController.text =  p?.structuredFormatting?.mainText ??" ";
       print(p?.description);
     }
 
@@ -49,7 +55,10 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('2/3'),
+        title: Text(Strings.addNamePage),
+        actions: [
+          TextButton(onPressed: _clickNext, child: Text("다음", style: TextStyle(color: Colors.black)))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -60,64 +69,79 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      Strings.addSchoolText1,
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
                     Row(
                       children: [
                         Text(
-                          Strings.addSchoolLabel1,
-                          style: Theme.of(context).textTheme.headline6,
+                          widget.nickname,
+                          style: MyTextStyle.bodyTextMedium2,
                         ),
                         Text(
-                          Strings.addSchoolText2,
-                          style: Theme.of(context).textTheme.headline5,
+                          Strings.addSchoolText1,
+                          style: MyTextStyle.bodyTextMedium1,
                         ),
+                      ],
+                    ),
+                    Text(
+                      Strings.addSchoolText2,
+                      style: MyTextStyle.bodyTextMedium1,
+                    ),
+                  ],
+                )
+            ),
+            Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(Strings.addSchoolName, style: MyTextStyle.bodyTextLabel1),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: TextField(
+                            controller: nameInputController,
+                            maxLines: 1,
+                            // decoration: InputDecoration(
+                            //     hintText: Strings.addSchoolHint1),
+                          ),
+                        ),
+                        IconButton(
+                          iconSize: 40,
+                          onPressed: () => _autoSearch(),
+                          icon: Icon(Icons.search, color: Colors.blue),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Icon(Icons.info, color: Colors.blue),
+                        SizedBox(width: 5),
+                        Text(Strings.addSchoolText3, style: TextStyle(color: Color(0xFFBABABA), fontWeight: FontWeight.w500))
                       ],
                     )
                   ],
                 )
             ),
-            Container(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: TextField(
-                        controller: nameInputController,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: Strings.addSchoolLabel1),
-                      ),
-                    ),
-                    IconButton(
-                      iconSize: 40,
-                      onPressed: () => _autoSearch(),
-                      icon: Icon(Icons.search, color: Colors.blue),
-                    ),
-                  ],
-                )
-            ),
-            Container(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.blue),
-                    SizedBox(width: 5),
-                    Text("닉네임으로 해도 괜찮아 어쩌고저쩌고.", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),)
-                  ],
-                )
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 50),
-              child: Center(
-                child: TextButton(
-                  child: Text("다음"),
-                  onPressed: _clickNext,
-                ),
-              ),
-            )
+            // Container(
+            //   padding: EdgeInsets.only(top: 50),
+            //   child:
+            //   ElevatedButton(
+            //       style: ButtonStyle(
+            //         backgroundColor: MaterialStateProperty.all(Colors.white10),
+            //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+            //       ),
+            //       // minWidth: 300,
+            //       // height: 50,
+            //       // color: Colors.white10,
+            //       onPressed: _clickNext,
+            //       child: SizedBox(
+            //         width: 300,
+            //         height: 50,
+            //         child: Text("다음"),
+            //       )
+            //   ),
+            // )
           ],
         ),
       ),
