@@ -1,5 +1,11 @@
+import 'package:after_school/model/api/login.dart';
+import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
+import 'package:after_school/resources/Theme.dart';
+import 'package:after_school/screen/home_screen.dart';
 import 'package:after_school/screen/login_screen.dart';
+import 'package:after_school/util/MyHttp.dart';
+import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -12,8 +18,16 @@ void main() async {
   runApp(
       ChangeNotifierProvider(
         create: (context) => UserState(),
-        child: const MaterialApp(
-          home: MyApp(),
+        child: MaterialApp(
+          theme: myThemeData(),
+          // home: MyApp(),
+          initialRoute: "/",
+          routes: {
+            '/':(_) => const MyApp(),
+            // '/search': (_) => {},
+            '/login': (_) => const LoginScreen(),
+            '/main': (_) => const HomeScreen(),
+          },
         ),
       )
   );
@@ -23,7 +37,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyappState createState() => _MyappState();
+  State<StatefulWidget> createState() => _MyappState();
 }
 
 class _MyappState extends State<MyApp> {
@@ -36,19 +50,22 @@ class _MyappState extends State<MyApp> {
   }
 
   _checkLogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLogin = false;
     if (await AuthApi.instance.hasToken()) {
       try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         AccessTokenInfo tokenInfo =
         await UserApi.instance.accessTokenInfo();
         print('토큰 유효성 체크 성공 $tokenInfo');
         String? kakaoToken = prefs.getString('kakaoToken');
         if(kakaoToken != null){
           print(kakaoToken);
-          isLogin = true;
-        } else {
-          isLogin = false;
+          MyHttp().setAuth(kakaoToken);
+          Login modelLogin = await _login(kakaoToken);
+          if(!modelLogin.isNewMember) {
+            MyHttp().setAuth(modelLogin.appToken!);
+            isLogin = true;
+          }
         }
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {
@@ -56,21 +73,24 @@ class _MyappState extends State<MyApp> {
         } else {
           print('토큰 정보 조회 실패 $error');
         }
-        isLogin = false;
       }
-    } else {
-      isLogin = false;
     }
     Future.delayed(
         const Duration(seconds: 4),
-        () => Navigator.pushReplacement(
+        () => Navigator.pushReplacementNamed(
               context,
-              MaterialPageRoute(builder: (context) => LoginScreen(isLogin: isLogin)),
-            ));
+              isLogin? '/main' : '/login'),
+            );
+  }
+
+  Future<Login> _login(String token) async {
+    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    return Login.fromJson(responseBody.data);
   }
 
   @override
   Widget build(BuildContext context) {
+    MyScreenUtil.init(context: context, designSize: const Size(360, 640));
     return Scaffold(
         backgroundColor: Colors.white,
         body: SizedBox(

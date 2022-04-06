@@ -1,6 +1,10 @@
+import 'package:after_school/model/api/response.dart';
 import 'package:after_school/model/state.dart';
-import 'package:after_school/screen/home_screen.dart';
-import 'package:after_school/util/my_http.dart';
+import 'package:after_school/resources/MyTextStyle.dart';
+import 'package:after_school/resources/Strings.dart';
+import 'package:after_school/screen/add_name_screen.dart';
+import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/util/MyHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -8,23 +12,16 @@ import 'package:provider/provider.dart';
 import 'package:after_school/model/user.dart' as my_user;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/api/login.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key, required this.isLogin}) : super(key: key);
-  final bool isLogin;
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late bool isLogin;
-
-  @override
-  void initState() {
-    super.initState();
-    isLogin = widget.isLogin;
-  }
 
   _kakaoLogin() async {
     // 카카오톡 설치 여부 확인
@@ -62,24 +59,26 @@ class _LoginScreenState extends State<LoginScreen> {
   _loginSuccess(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('kakaoToken', token);
-    // await _getUser();
-    MyHttp().setAuth(token);
-    await _getJwtToken(token);
-    setState(() {
-      isLogin = true;
-    });
-  }
+    await _getUser();
 
-  Future<String> _getJwtToken(String token) async {
-    Map<String, dynamic> responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
-    return Login.fromJson(responseBody).nickName;
+    MyHttp().setAuth(token);
+    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+    Login modelLogin = Login.fromJson(responseBody.data);
+    if(modelLogin.isNewMember) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname)));
+    }else{
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+    }
   }
 
   _getUser() async {
     try {
       User kakaoUser = await UserApi.instance.me();
-      // context.watch<UserState>().add(
       Provider.of<UserState>(context, listen: false).add(
+      // context.watch<UserState>().add(
           my_user.User.fromKakao(kakaoUser)
       );
       print('사용자 정보 요청 성공'
@@ -95,33 +94,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLogin? const HomeScreen() :
-    Scaffold(
+    return Scaffold(
         body: Stack(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/imgTest.png', fit: BoxFit.cover),
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset('assets/images/imgTest.png', fit: BoxFit.fill),
             ),
             Container(
-                padding: EdgeInsets.fromLTRB(20, 100, 20, 50),
+                padding: EdgeInsets.only(left: 21.w, top: 95.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("소중한 \n추억을 찾기 위한", style: TextStyle(fontSize: 40, height: 1.2)),
-                    Text("3초", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, height: 1.2))
+                  children: const [
+                    Text(Strings.loginText1, style: MyTextStyle.bodyTextLarge1),
+                    Text(Strings.loginText2, style: MyTextStyle.bodyTextLarge2)
                   ],
                 )
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(20, 550, 20, 50),
-              child: TextButton(
-                  onPressed: _kakaoLogin,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.asset('assets/images/kakao_login_large_wide.png'),
-                  )
+              padding: EdgeInsets.only(top: 494.h, left: 30.w, right: 30.w),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+                child: Image.asset('assets/images/kakao_login_large_wide.png'),
+                onPressed: _kakaoLogin,
               ),
             )
           ],
