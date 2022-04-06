@@ -55,7 +55,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.addNamePage),
+        title: const Text(Strings.addNamePage),
         actions: [
           TextButton(onPressed: _clickNext, child: Text("다음", style: TextStyle(color: Colors.black)))
         ],

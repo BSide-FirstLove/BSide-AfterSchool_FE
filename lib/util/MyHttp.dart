@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:after_school/model/api/response.dart';
-import 'package:after_school/util/show_dialog.dart';
+import 'package:after_school/util/MyWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;

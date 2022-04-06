@@ -35,3 +35,17 @@ myShowDialog(BuildContext context, String title, String content) {
         );
       });
 }
+
+Widget myButton(BuildContext context, double width, double height, Color color, String text, onPressed) {
+  return OutlinedButton(
+    style: OutlinedButton.styleFrom(
+        backgroundColor: color,
+        fixedSize: Size(
+            MediaQuery.of(context).size.width * width/360,
+            MediaQuery.of(context).size.height * height/640),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)))),
+    child: Text(text, style: TextStyle(color: Colors.white)),
+    onPressed: onPressed,
+  );
+}

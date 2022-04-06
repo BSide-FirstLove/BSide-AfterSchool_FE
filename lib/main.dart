@@ -4,7 +4,8 @@ import 'package:after_school/model/state.dart';
 import 'package:after_school/resources/Theme.dart';
 import 'package:after_school/screen/home_screen.dart';
 import 'package:after_school/screen/login_screen.dart';
-import 'package:after_school/util/my_http.dart';
+import 'package:after_school/util/MyHttp.dart';
+import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -89,6 +90,7 @@ class _MyappState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    MyScreenUtil.init(context: context, designSize: const Size(360, 640));
     return Scaffold(
         backgroundColor: Colors.white,
         body: SizedBox(

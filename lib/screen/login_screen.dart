@@ -3,7 +3,8 @@ import 'package:after_school/model/state.dart';
 import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:after_school/screen/add_name_screen.dart';
-import 'package:after_school/util/my_http.dart';
+import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/util/MyHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -93,16 +94,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+    print(21.w);
+    print(21.h);
+    print(21.sp);
+
     return Scaffold(
         body: Stack(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/imgTest.png', fit: BoxFit.cover),
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset('assets/images/imgTest.png', fit: BoxFit.fill),
             ),
             Container(
-                padding: EdgeInsets.fromLTRB(20, 100, 20, 50),
+                padding: EdgeInsets.only(left: 21.w, top: 95.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
@@ -112,13 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(20, 550, 20, 50),
-              child: TextButton(
-                  onPressed: _kakaoLogin,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.asset('assets/images/kakao_login_large_wide.png'),
-                  )
+              padding: EdgeInsets.only(top: 494.h, left: 30.w, right: 30.w),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+                child: Image.asset('assets/images/kakao_login_large_wide.png'),
+                onPressed: _kakaoLogin,
               ),
             )
           ],
