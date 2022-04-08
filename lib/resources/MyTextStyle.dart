@@ -15,4 +15,21 @@ class MyTextStyle {
     TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400);
   static const TextStyle bodyTextAlert =
     TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFBABABA), fontSize: 13);
+
+  //  add_info_screen
+  static const TextStyle addInfoTitleLarge =
+    TextStyle(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 22);
+  static const TextStyle addInfoTitleSmall =
+    TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFFFDCA7), fontSize: 14);
+  static const TextStyle addInfoBodyLabel =
+    TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFAEAEAE), fontSize: 14);
+  static const TextStyle addInfoName =
+    TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF3B3B3B), fontSize: 16, letterSpacing: 2);
+  //  input_instar_screen
+  static const TextStyle inputInstarTitle =
+    TextStyle(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 16);
+  static const TextStyle inputInstarAction =
+    TextStyle(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16);
+  static const TextStyle inputInstarField =
+    TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFFFB038), fontSize: 16);
 }

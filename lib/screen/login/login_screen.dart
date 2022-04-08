@@ -1,18 +1,19 @@
-import 'package:after_school/model/api/response.dart';
+import 'package:after_school/model/api/ModelResponse.dart';
 import 'package:after_school/model/state.dart';
 import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/screen/add_name_screen.dart';
 import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:after_school/util/MyHttp.dart';
+import 'package:after_school/util/MyWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:after_school/model/user.dart' as my_user;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/api/login.dart';
-import 'home_screen.dart';
+import '../../model/api/Login.dart';
+import '../home_screen.dart';
+import 'add_name_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -61,16 +62,20 @@ class _LoginScreenState extends State<LoginScreen> {
     await prefs.setString('kakaoToken', token);
     await _getUser();
 
-    MyHttp().setAuth(token);
-    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
-    Login modelLogin = Login.fromJson(responseBody.data);
-    if(modelLogin.isNewMember) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname)));
-    }else{
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-      );
+    try{
+      MyHttp().setKakaoToken(token);
+      Login modelLogin = await MyHttp().login(LoginReq(accessToken: token));
+      if(modelLogin.isNewMember) {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname!)));
+      }else{
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen()),
+        );
+      }
+    } catch(error) {
+      showMsg(context, Strings.errorLogin);
+      print(error);
     }
   }
 
@@ -114,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               padding: EdgeInsets.only(top: 494.h, left: 30.w, right: 30.w),
-              child: OutlinedButton(
+              child: TextButton(
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)))),
