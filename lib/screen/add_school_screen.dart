@@ -37,6 +37,14 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
     _endInputController.addListener(_checkValidity);
   }
 
+  @override
+  void dispose() {
+    _schoolNameInputController.dispose();
+    _startInputController.dispose();
+    _endInputController.dispose();
+    super.dispose();
+  }
+
   _checkValidity() {
     if(_schoolNameInputController.text.isNotEmpty &&
         _startInputController.text.isNotEmpty &&

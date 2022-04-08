@@ -15,6 +15,7 @@ class Strings {
   static const String addNameText3 = "닉네임으로 해도 괜찮아 어쩌고저쩌고.";
   static const String addNameLabel2 = "이름";
   static const String addNameMsg1 = "이름을 입력 해주세요.";
+  static const String addNameErrorText = "2글자 이상 입력해주세요.";
   //  Add School Screen
   static const String addNamePage = "2 / 3";
   static const String addSchoolLabel1 = "학교";

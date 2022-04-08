@@ -26,6 +26,12 @@ class _AddNameScreenState extends State<AddNameScreen> {
     _nameInputController.text = widget.nickname;
   }
 
+  @override
+  void dispose() {
+    _nameInputController.dispose();
+    super.dispose();
+  }
+
   _checkValidity() {
     if(_nameInputController.text.isNotEmpty && _nameInputController.text.length >= 2) {
       setState(() {
@@ -122,7 +128,10 @@ class _AddNameScreenState extends State<AddNameScreen> {
                     controller: _nameInputController,
                     maxLines: 1,
                     decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.cancel_outlined)
+                      errorText: _validity ?null :Strings.addNameErrorText,
+                      suffixIcon: _validity
+                          ?Icon(Icons.cancel_outlined)
+                          :Icon(Icons.info, color: Colors.red)
                     ),
                   ),
                   Padding(
