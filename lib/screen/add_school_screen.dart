@@ -20,7 +20,9 @@ class AddSchoolScreen extends StatefulWidget {
 class _AddSchoolScreenState extends State<AddSchoolScreen> {
   @override
   Widget build(BuildContext context) {
-    final nameInputController = TextEditingController();
+    final _nameInputController = TextEditingController();
+    final _startInputController = TextEditingController();
+    final _endInputController = TextEditingController();
 
     void onError(PlacesAutocompleteResponse response) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -47,8 +49,9 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
           hintText: '학교',
         )
       );
-      nameInputController.text =  p?.structuredFormatting?.mainText ??" ";
+      _nameInputController.text =  p?.structuredFormatting?.mainText ??" ";
       print(p?.description);
+      print(p?.placeId);
     }
 
     _clickNext() {
@@ -56,40 +59,17 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
       Navigator.push(context, MaterialPageRoute(builder: (_) => const AddInfoScreen()));
     }
 
-    _show(BuildContext context) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              //Dialog Main Title
-              title: Column(
-                children: <Widget>[
-                  Text("asdf"),
-                ],
-              ),
-              //
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Asdf"),
-                ],
-              ),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text("확인"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            );
-          }
-      );
+    _showStartDialog() {
+      makePicker(context, _startInputController, Strings.addSchoolStartYear, 1950);
+    }
 
+    _showEndDialog() {
+      if(_startInputController.text.isEmpty){
+        showMsg(context, Strings.addSchoolAlert1);
+      }else{
+        int _startYear = int.parse(_startInputController.text.toString().replaceAll(" 년", ""));
+        makePicker(context, _endInputController, Strings.addSchoolEndYear, _startYear);
+      }
     }
 
     return Scaffold(
@@ -139,8 +119,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                   InkWell(
                     onTap: _autoSearch,
                     child: TextField(
-                      controller: nameInputController,
-                      maxLines: 1,
+                      controller: _nameInputController,
                       enabled: false,
                       decoration: InputDecoration(
                         // hintText: Strings.addSchoolHint1
@@ -168,8 +147,9 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                       width: 150.w,
                       height: 44.h,
                       child: InkWell(
-                        onTap: (){},
+                        onTap: _showStartDialog,
                         child: TextField(
+                          controller: _startInputController,
                           enabled: false,
                           decoration: InputDecoration(
                               suffixIcon: Icon(Icons.date_range_outlined)
@@ -188,8 +168,9 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                       width: 150.w,
                       height: 44.h,
                         child: InkWell(
-                          onTap: () => myShowDialog2(context),
+                          onTap: _showEndDialog,
                           child: TextField(
+                            controller: _endInputController,
                             enabled: false,
                             decoration: InputDecoration(
                                 suffixIcon: Icon(Icons.date_range_outlined)

@@ -45,7 +45,7 @@ class MyHttp {
       return ModelResponse.fromJson(json.decode(responseBody));
       return json.decode(responseBody)['data'];
     } else {
-      myShowDialog(context, "에러", "서버와 통신에 실패하였습니다.");
+      showMsg(context, "서버와 통신에 실패하였습니다.");
       throw Exception('Failed to load post');
     }
   }

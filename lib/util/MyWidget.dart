@@ -1,92 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter_picker/Picker.dart';
 
-myShowDialog(BuildContext context, String title, String content) {
-  showDialog(
-      context: context,
-      barrierDismissible: true, //Dialog를 제외한 다른 화면 터치시 닫기 여부
-      builder: (BuildContext context) {
-        return AlertDialog(
-          // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0)),
-          //Dialog Main Title
-          title: Column(
-            children: <Widget>[
-              Text("입학년도"),
-            ],
-          ),
-          //
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(content),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('확인'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('취소'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      });
-}
-
-myShowDialog2(BuildContext context){
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.circular(10.0)), //this right here
-          child: Container(
-            width: 500,
-            height: 187.h,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'What do you want to remember?'),
-                ),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      OutlinedButton(
-                        child: Text("취소"),
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                            // fixedSize: Size(double.infinity/2, double.infinity/2),
-                            ),
-                      ),
-                      OutlinedButton(
-                        child: Text("확인"),
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                            ),
-                      )
-                    ],
-                  )
-                )
-              ],
-            ),
-          ),
-        );
-      });
+showMsg(BuildContext context, String msg) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
 }
 
 Widget myButton(double width, double height, Color color, String text, onPressed) {
@@ -99,4 +15,36 @@ Widget myButton(double width, double height, Color color, String text, onPressed
     child: Text(text, style: TextStyle(color: Colors.white)),
     onPressed: onPressed,
   );
+}
+
+makePicker(BuildContext context, TextEditingController controller, String title, int begin) {
+  Picker(
+      // adapter: NumberPickerAdapter(data: [
+      //   NumberPickerColumn(begin: begin, end: DateTime.now().year, jump: 1,
+      //   ),
+      // ]),
+      adapter: PickerDataAdapter<String>(
+          pickerdata: _makeData(begin)),
+      hideHeader: true,
+      selecteds: [begin==1950?40:2], //  시작위치
+      title: Center(child:Text(title, style: TextStyle(fontSize: 16, decoration: TextDecoration.underline))),
+      selectedTextStyle: TextStyle(fontSize: 30, color: Colors.black),
+      textStyle: TextStyle(fontSize: 24, color: Color(0xFFD4D4D4)),
+      confirmText: "확인",
+      cancelText: "취소",
+      height: 100,
+      itemExtent: 40,
+      onConfirm: (Picker picker, List value) {
+        // print(value.toString());
+        // print(picker.getSelectedValues());
+        controller.text = picker.getSelectedValues().first;
+      }).showDialog(context);
+}
+
+_makeData(int begin) {
+  List<String> array = [];
+  for(int i=begin; i<=DateTime.now().year; i++){
+    array.add("$i 년");
+  }
+  return array;
 }

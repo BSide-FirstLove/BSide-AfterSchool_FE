@@ -36,6 +36,7 @@ dependencies:
   http: ^0.13.4
   shared_preferences: ^2.0.13 # 영구 저장소
 #  flutter_google_places_hoc081098: ^1.0.1 # 장소 자동 완성
+  flutter_picker: ^2.0.3  # 년도선택
   flutter_google_places:
     git:
       url: https://github.com/fluttercommunity/flutter_google_places

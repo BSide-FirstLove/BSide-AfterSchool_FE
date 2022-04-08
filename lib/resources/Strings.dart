@@ -21,6 +21,7 @@ class Strings {
   static const String addSchoolName = "학교명";
   static const String addSchoolStartYear = "입학년도";
   static const String addSchoolEndYear = "졸업년도";
+  static const String addSchoolAlert1 = "입학년도를 먼저 선택 해주세요.";
 
   //  Add Info Screen
   static const String addSchoolPage = "3 / 3";

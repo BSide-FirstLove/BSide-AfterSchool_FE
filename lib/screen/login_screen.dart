@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               padding: EdgeInsets.only(top: 494.h, left: 30.w, right: 30.w),
-              child: OutlinedButton(
+              child: TextButton(
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)))),
