@@ -25,4 +25,11 @@ class MyTextStyle {
     TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFAEAEAE), fontSize: 14);
   static const TextStyle addInfoName =
     TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF3B3B3B), fontSize: 16, letterSpacing: 2);
+  //  input_instar_screen
+  static const TextStyle inputInstarTitle =
+    TextStyle(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 16);
+  static const TextStyle inputInstarAction =
+    TextStyle(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16);
+  static const TextStyle inputInstarField =
+    TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFFFB038), fontSize: 16);
 }

@@ -3,6 +3,8 @@ import 'package:after_school/model/user.dart';
 import 'package:after_school/resources/MyColor.dart';
 import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
+import 'package:after_school/screen/home_screen.dart';
+import 'package:after_school/screen/input_instar_screen.dart';
 import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:after_school/util/MyWidget.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,9 @@ class AddInfoScreen extends StatefulWidget {
 
 class _AddInfoScreenState extends State<AddInfoScreen> {
   late User _user;
+  final _instarInputController = TextEditingController();
+  final _jobInputController = TextEditingController();
+  final _descriptionInputController = TextEditingController();
 
   @override
   void initState() {
@@ -33,22 +38,28 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     super.dispose();
   }
 
+  _inputInstar() async {
+    String instar = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) =>InputInstarScreen())
+    );
+    print(instar);
+    _instarInputController.text = instar;
+  }
+
+  _clickNext() {
+    //  이전 페이지 제거 후 이동
+    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final nameInputController = TextEditingController();
-    final ScrollController _scrollController = ScrollController();
-
-    _clickNext() {
-      //  이전 페이지 제거 후 이동
-      Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-    }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
-            systemOverlayStyle:
-            SystemUiOverlayStyle(statusBarColor: Colors.transparent //상태바 투명
+            systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent //상태바 투명
             ),
             backgroundColor: MyColor.loginYello,
             title: Text(Strings.addSchoolPage),
@@ -57,14 +68,13 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
               TextButton(
                   onPressed: _clickNext,
                   child: Text(Strings.completion,
-                      style: TextStyle(color: Colors.black)))
+                      style: TextStyle(color: Colors.white)))
             ],
           ),
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
+          body: SingleChildScrollView(
+            child: Stack(
+              children: [
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
@@ -114,22 +124,28 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                             padding: EdgeInsets.only(left: 4.w, right: 4.w),
                             child: Text(Strings.addInfoInstar, style: MyTextStyle.addInfoBodyLabel),
                           ),
-                          TextField(
-                            decoration: InputDecoration(
-                              filled: false,
-                              suffixIcon: Icon(Icons.arrow_forward_ios, color: Color(0xFFAEAEAE)),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFD5D6D8),
+                          InkWell(
+                            onTap: _inputInstar,
+                            child: TextField(
+                                controller: _instarInputController,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    filled: false,
+                                    suffixIcon: Icon(Icons.arrow_forward_ios, color: Color(0xFFAEAEAE)),
+                                    disabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFD5D6D8),
+                                        )
+                                    )
                                 )
-                              )
-                            )
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 4.w, right: 4.w, top: 24.h),
                             child: Text(Strings.addInfoJob, style: MyTextStyle.addInfoBodyLabel),
                           ),
                           TextField(
+                              controller: _jobInputController,
                               decoration: InputDecoration(
                                   filled: false,
                                   suffixIcon: Icon(Icons.arrow_forward_ios, color: Color(0xFFAEAEAE)),
@@ -145,7 +161,8 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                             child: Text(Strings.addInfoDescription, style: MyTextStyle.addInfoBodyLabel),
                           ),
                           TextField(
-                              maxLines: 5,
+                              controller: _descriptionInputController,
+                              maxLines: 7,
                               decoration: InputDecoration(
                                   filled: false,
                                   enabledBorder: OutlineInputBorder(
@@ -161,15 +178,15 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                               children: [
                                 Expanded(
                                     child: SizedBox(
-                                      height: 50.h,
-                                      child: myButton(MyColor.buttonGrey, "다음에", (){})
+                                        height: 50.h,
+                                        child: myButton(MyColor.buttonGrey, "다음에", (){})
                                     )
                                 ),
                                 SizedBox(width: 12.w),
                                 Expanded(
                                     child: SizedBox(
-                                      height: 50.h,
-                                      child: myButton(Color(0xFF4F60F4), "확인", (){})
+                                        height: 50.h,
+                                        child: myButton(Color(0xFF4F60F4), "확인", (){})
                                     )
                                 ),
                                 // myButton(158.w, 50.h, MyColor.buttonGrey, "다음에", (){}),
@@ -182,42 +199,43 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                     )
                   ],
                 ),
-              ),
-              Container(
-                  padding: EdgeInsets.only(top: 80.h),
-                  alignment: Alignment.bottomCenter,
-                  child: Stack(
-                    children: [
-                      Column(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 66.w,
-                            child: CircleAvatar(
-                              radius: 63.w,
-                              backgroundImage: NetworkImage(_user.image),
+                Container(
+                    padding: EdgeInsets.only(top: 80.h),
+                    alignment: Alignment.bottomCenter,
+                    child: Stack(
+                      children: [
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 66.w,
+                              child: CircleAvatar(
+                                radius: 63.w,
+                                backgroundImage: NetworkImage(_user.image),
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            _user.nickname,
-                            style: MyTextStyle.addInfoName,
-                          )
-                        ],
-                      ),
-                      Positioned(
-                        top: 104.h,
-                        right: 7.w,
-                        child: CircleAvatar(
-                            backgroundColor: Color(0xFF4F60F4),
-                            radius: 14.w,
-                            child: Icon(Icons.camera_alt_outlined, size: 18)),
-                      )
-                    ],
-                  )
-              )
-            ],
-          )),
+                            SizedBox(height: 10.h),
+                            Text(
+                              _user.nickname,
+                              style: MyTextStyle.addInfoName,
+                            )
+                          ],
+                        ),
+                        Positioned(
+                          top: 104.h,
+                          right: 7.w,
+                          child: CircleAvatar(
+                              backgroundColor: Color(0xFF4F60F4),
+                              radius: 14.w,
+                              child: Icon(Icons.camera_alt_outlined, size: 18)),
+                        )
+                      ],
+                    )
+                )
+              ],
+            )
+          ),
+      ),
     );
   }
 }

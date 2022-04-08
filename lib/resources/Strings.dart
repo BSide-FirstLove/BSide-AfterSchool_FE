@@ -39,4 +39,6 @@ class Strings {
   static const String addInfoInstar = "인스타그램";
   static const String addInfoJob = "직업";
   static const String addInfoDescription = "하고싶은 말";
+  //  Input Instar Screen
+  static const String addInstarTitle = "인스타그램 ID";
 }
