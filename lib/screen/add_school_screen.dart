@@ -111,31 +111,32 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
   }
 
   _clickNext() {
-    if(_validity) {
-      try{
-        var data = JoinReq(
-            accessToken: MyHttp().kakaoToken,
-            placeId: _placeId,
-            enterYear: _startInputController.text,
-            endYear: _endInputController.text,
-            nickname: widget.nickname);
-        MyHttp().join(data);
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const AddInfoScreen()));
-      } catch(e){
-        showMsg(context, Strings.errorJoin);
-        print(e);
-      }
-    }else {
-      String msg = "";
-      if(_schoolNameInputController.text.isEmpty){
-        msg = Strings.addSchoolMsg2;
-      } else if(_startInputController.text.isEmpty){
-        msg = Strings.addSchoolMsg3;
-      } else if(_endInputController.text.isEmpty){
-        msg = Strings.addSchoolMsg4;
-      }
-      showMsg(context, msg);
-    }
+    // if(_validity) {
+    //   try{
+    //     var data = JoinReq(
+    //         accessToken: MyHttp().kakaoToken,
+    //         placeId: _placeId,
+    //         enterYear: _startInputController.text,
+    //         endYear: _endInputController.text,
+    //         nickname: widget.nickname);
+    //     MyHttp().join(data);
+    //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const AddInfoScreen()));
+    //   } catch(e){
+    //     showMsg(context, Strings.errorJoin);
+    //     print(e);
+    //   }
+    // }else {
+    //   String msg = "";
+    //   if(_schoolNameInputController.text.isEmpty){
+    //     msg = Strings.addSchoolMsg2;
+    //   } else if(_startInputController.text.isEmpty){
+    //     msg = Strings.addSchoolMsg3;
+    //   } else if(_endInputController.text.isEmpty){
+    //     msg = Strings.addSchoolMsg4;
+    //   }
+    //   showMsg(context, msg);
+    // }
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const AddInfoScreen()));
   }
   
   @override
@@ -145,7 +146,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
       appBar: AppBar(
         title: const Text(Strings.addNamePage),
         actions: [
-          TextButton(onPressed: _clickNext, child: Text("다음", style: TextStyle(color: Colors.black)))
+          TextButton(onPressed: _clickNext, child: Text(Strings.next, style: TextStyle(color: Colors.black)))
         ],
       ),
       body: Column(
@@ -252,10 +253,17 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 119.h),
-            child: Center(
-              child: myButton(300.w, 50.h, _validity? Colors.black:MyColor.buttonGrey, "다음", _clickNext)
-            ),
+              padding: EdgeInsets.only(top: 119.h, left: 30.w, right: 30.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 50.h,
+                      child: myButton(_validity? Colors.black :MyColor.buttonGrey, "다음", _clickNext),
+                    ),
+                  )
+                ],
+              )
           )
         ],
       ),

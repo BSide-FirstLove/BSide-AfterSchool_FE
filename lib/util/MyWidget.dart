@@ -5,11 +5,10 @@ showMsg(BuildContext context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
 }
 
-Widget myButton(double width, double height, Color color, String text, onPressed) {
+Widget myButton(Color color, String text, onPressed) {
   return OutlinedButton(
     style: OutlinedButton.styleFrom(
         backgroundColor: color,
-        fixedSize: Size(width, height),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)))),
     child: Text(text, style: TextStyle(color: Colors.white)),

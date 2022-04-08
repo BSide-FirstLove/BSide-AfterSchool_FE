@@ -1,4 +1,6 @@
 class Strings {
+  static const String next = "다음";
+  static const String completion = "완료";
   //  Error
   static const String error1 = "서버와 통신에 실패 하였습니다.";
   static const String errorLogin = "로그인에 실패 하였습니다.";
@@ -32,9 +34,9 @@ class Strings {
   static const String addSchoolMsg4 = "졸업년도를 선택 해주세요.";
   //  Add Info Screen
   static const String addSchoolPage = "3 / 3";
-  static const String addInfoText1 = "가입이 완료되었어요!";
-  static const String addInfoText2 = "더 재미있는 방과후를 위해";
-  static const String addInfoText3 = "추가 정보";
-  static const String addInfoText4 = "를 입력해주세요.";
-  static const String addInfoProfile = "프로필 사진";
+  static const String addInfoTitle1 = "가입이 완료되었어요!";
+  static const String addInfoTitle2 = "더 재미있는 방과후를 위해 추가 정보를 입력해주세요.";
+  static const String addInfoInstar = "인스타그램";
+  static const String addInfoJob = "직업";
+  static const String addInfoDescription = "하고싶은 말";
 }
