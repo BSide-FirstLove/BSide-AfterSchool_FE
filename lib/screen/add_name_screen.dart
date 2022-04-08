@@ -7,22 +7,51 @@ import 'package:flutter/material.dart';
 import '../util/MyWidget.dart';
 import 'add_school_screen.dart';
 
-class AddNameScreen extends StatelessWidget {
+class AddNameScreen extends StatefulWidget {
   const AddNameScreen({Key? key, required this.nickname}) : super(key: key);
   final String nickname;
 
   @override
-  Widget build(BuildContext context) {
-    final nameInputController = TextEditingController(text: nickname);
+  State<StatefulWidget> createState() => _AddNameScreenState();
+}
 
-    _clickNext() {
+class _AddNameScreenState extends State<AddNameScreen> {
+  final _nameInputController = TextEditingController();
+  bool _validity = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameInputController.addListener(_checkValidity);
+    _nameInputController.text = widget.nickname;
+  }
+
+  _checkValidity() {
+    if(_nameInputController.text.isNotEmpty && _nameInputController.text.length >= 2) {
+      setState(() {
+        _validity = true;
+      });
+    } else{
+      setState(() {
+        _validity = false;
+      });
+    }
+  }
+
+  _clickNext() {
+    if(_validity) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (_) =>
-                  AddSchoolScreen(nickname: nameInputController.text)));
+                  AddSchoolScreen(nickname: _nameInputController.text)));
+    }else {
+      showMsg(context, Strings.addNameMsg1);
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       //  키보드 밀림 방지
       resizeToAvoidBottomInset: false,
@@ -61,7 +90,7 @@ class AddNameScreen extends StatelessWidget {
                 ],
               )),
           Container(
-              padding: EdgeInsets.only(left: 16.w),
+              padding: EdgeInsets.only(left: 16.w, right: 16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,47 +98,44 @@ class AddNameScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
                     child: Text(Strings.addNameLabel2),
                   ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: TextField(
-                          controller: nameInputController,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.cancel_outlined)
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.clear),
-                        iconSize: 30,
-                        padding: EdgeInsets.all(18),
-                        color: MyColor.icon,
-                      )
-                    ],
+                  // Row(
+                  //   children: [
+                  //     Flexible(
+                  //       child: TextField(
+                  //         controller: _nameInputController,
+                  //         maxLines: 1,
+                  //         decoration: InputDecoration(
+                  //             suffixIcon: Icon(Icons.cancel_outlined)
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     IconButton(
+                  //       onPressed: () {},
+                  //       icon: Icon(Icons.clear),
+                  //       iconSize: 30,
+                  //       padding: EdgeInsets.all(18),
+                  //       color: MyColor.icon,
+                  //     )
+                  //   ],
+                  // ),
+                  TextField(
+                    controller: _nameInputController,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.cancel_outlined)
+                    ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10.h),
-                    child: Text(Strings.addNameText3, style: MyTextStyle.bodyTextAlert)
+                      padding: EdgeInsets.only(top: 10.h),
+                      child: Text(Strings.addNameText3, style: MyTextStyle.bodyTextAlert)
                   )
                 ],
               )),
           Container(
             padding: EdgeInsets.only(top: 218.h),
             child: Center(
-              child: myButton(300.w, 50.h, MyColor.buttonGrey, "다음", _clickNext),
+              child: myButton(300.w, 50.h, _validity? Colors.black :MyColor.buttonGrey, "다음", _clickNext),
             ),
-            //   OutlinedButton(
-            //     style: OutlinedButton.styleFrom(
-            //         fixedSize: Size(
-            //             MediaQuery.of(context).size.width*300/360,
-            //             MediaQuery.of(context).size.height*50/640),
-            //         shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.all(Radius.circular(10)))),
-            //     child: Text("다음"),
-            //     onPressed: _clickNext,
-            //   ),
           )
         ],
       ),

@@ -1,5 +1,5 @@
-import 'package:after_school/model/api/login.dart';
-import 'package:after_school/model/api/response.dart';
+import 'package:after_school/model/api/Login.dart';
+import 'package:after_school/model/api/ModelResponse.dart';
 import 'package:after_school/model/state.dart';
 import 'package:after_school/resources/Theme.dart';
 import 'package:after_school/screen/home_screen.dart';
@@ -60,12 +60,11 @@ class _MyappState extends State<MyApp> {
         String? kakaoToken = prefs.getString('kakaoToken');
         if(kakaoToken != null){
           print(kakaoToken);
-          MyHttp().setAuth(kakaoToken);
-          Login modelLogin = await _login(kakaoToken);
-          if(!modelLogin.isNewMember) {
-            MyHttp().setAuth(modelLogin.appToken!);
-            isLogin = true;
-          }
+          MyHttp().setKakaoToken(kakaoToken);
+          // Login modelLogin = await MyHttp().login(LoginReq(accessToken: kakaoToken));
+          // if(!modelLogin.isNewMember) {
+          //   isLogin = true;
+          // }
         }
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {
@@ -83,10 +82,10 @@ class _MyappState extends State<MyApp> {
             );
   }
 
-  Future<Login> _login(String token) async {
-    ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
-    return Login.fromJson(responseBody.data);
-  }
+  // Future<Login> _login(String token) async {
+  //   ModelResponse responseBody = await MyHttp().post(context, 'auth/kakao', {'accessToken': token});
+  //   return Login.fromJson(responseBody.data);
+  // }
 
   @override
   Widget build(BuildContext context) {

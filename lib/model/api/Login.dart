@@ -1,6 +1,6 @@
 class Login {
   final bool isNewMember;
-  final String nickname;
+  final String? nickname;
   final String? appToken;
 
   const Login({
@@ -16,4 +16,16 @@ class Login {
       appToken: json['appToken'],
     );
   }
+}
+
+class LoginReq {
+  final String accessToken;
+
+  const LoginReq({
+    required this.accessToken,
+  });
+
+  Map<String, dynamic> toJson() => {
+    "accessToken": accessToken
+  };
 }
