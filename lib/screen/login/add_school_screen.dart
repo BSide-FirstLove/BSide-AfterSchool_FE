@@ -2,7 +2,6 @@ import 'package:after_school/model/api/Join.dart';
 import 'package:after_school/resources/MyColor.dart';
 import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/screen/add_info_screen.dart';
 import 'package:after_school/util/MyHttp.dart';
 import 'package:after_school/util/MyWidget.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:after_school/util/MyScreenUtil.dart';
+
+import 'add_info_screen.dart';
 
 class AddSchoolScreen extends StatefulWidget {
   const AddSchoolScreen({Key? key, required this.nickname}) : super(key: key);

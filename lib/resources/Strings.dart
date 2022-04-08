@@ -5,7 +5,7 @@ class Strings {
   static const String error1 = "서버와 통신에 실패 하였습니다.";
   static const String errorLogin = "로그인에 실패 하였습니다.";
   static const String errorJoin = "회원가입에 실패 하였습니다.";
-  static const String error3 = "서버와 통신에 실패 하였습니다.";
+  static const String errorUserUpdate = "회원정보 수정에 실패 하였습니다.";
   //  Login Screen
   static const String loginText1 = "소중한 \n추억을 찾기 위한";
   static const String loginText2 = "3초";

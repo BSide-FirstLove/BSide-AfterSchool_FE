@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:after_school/model/api/Join.dart';
 import 'package:after_school/model/api/ModelResponse.dart';
+import 'package:after_school/model/api/UserUpdate.dart';
 import 'package:after_school/resources/Strings.dart';
 import 'package:after_school/util/MyWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,8 +58,8 @@ class MyHttp {
       return ModelResponse.fromJson(json.decode(responseBody));
       return json.decode(responseBody)['data'];
     }
-    // else if(response.statusCode == 401) {
-    //   //  refrest JWT
+    // else if(response.statusCode == 403) {
+    //   login(LoginReq(accessToken: kakaoToken));
     // }
     else {
       throw Exception(Strings.error1);
@@ -85,6 +87,16 @@ class MyHttp {
       return modelJoin;
     }else {
       throw Exception(Strings.errorJoin);
+    }
+  }
+
+  Future<UserUpdate> userUpdate(UserUpdateReq data) async {
+    ModelResponse responseBody = await post('user/update', data.toJson());
+    if(responseBody.resultCode == CODE_SUCCESS) {
+      UserUpdate userUpdateModel = UserUpdate.fromJson(responseBody.data);
+      return userUpdateModel;
+    }else {
+      throw Exception(Strings.errorUserUpdate);
     }
   }
 }

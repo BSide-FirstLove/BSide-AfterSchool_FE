@@ -3,7 +3,7 @@ import 'package:after_school/model/api/ModelResponse.dart';
 import 'package:after_school/model/state.dart';
 import 'package:after_school/resources/Theme.dart';
 import 'package:after_school/screen/home_screen.dart';
-import 'package:after_school/screen/login_screen.dart';
+import 'package:after_school/screen/login/login_screen.dart';
 import 'package:after_school/util/MyHttp.dart';
 import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:flutter/material.dart';

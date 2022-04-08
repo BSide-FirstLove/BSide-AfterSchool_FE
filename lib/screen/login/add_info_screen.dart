@@ -1,15 +1,17 @@
+import 'package:after_school/model/api/UserUpdate.dart';
 import 'package:after_school/model/state.dart';
 import 'package:after_school/model/user.dart';
 import 'package:after_school/resources/MyColor.dart';
 import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/screen/home_screen.dart';
-import 'package:after_school/screen/input_instar_screen.dart';
+import 'package:after_school/util/MyHttp.dart';
 import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:after_school/util/MyWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+
+import 'input_instar_screen.dart';
 
 class AddInfoScreen extends StatefulWidget {
   const AddInfoScreen({Key? key}) : super(key: key);
@@ -58,13 +60,15 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     }
   }
 
-  _resizeImage() {
-
+  _resizeImage() async {
+    String image = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => InputInstarScreen())
+    );
   }
 
   _inputInstar() async {
     String instar = await Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) =>InputInstarScreen())
+        MaterialPageRoute(builder: (_) => InputInstarScreen())
     );
     print(instar);
     _instarInputController.text = instar;
@@ -79,6 +83,17 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     if(_validity) {
       // 추가정보 api 통신 후 메인 페이지 이동
       // Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+      try {
+        var data = UserUpdateReq(
+            instagramId: _instarInputController.text,
+            job: _jobInputController.text,
+            description: _descriptionInputController.text);
+        MyHttp().userUpdate(data);
+        Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+      }on Exception catch (e) {
+        showMsg(context, Strings.errorUserUpdate);
+        print(e);
+      }
     }else {
         String msg = "";
         if(_instarInputController.text.isEmpty) {

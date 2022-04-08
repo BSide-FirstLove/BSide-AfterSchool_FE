@@ -2,7 +2,7 @@ import 'package:after_school/resources/MyTextStyle.dart';
 import 'package:after_school/util/MyScreenUtil.dart';
 import 'package:flutter/material.dart';
 
-import '../resources/Strings.dart';
+import '../../resources/Strings.dart';
 
 class InputInstarScreen extends StatelessWidget {
   const InputInstarScreen({Key? key}) : super(key: key);
@@ -47,12 +47,12 @@ class InputInstarScreen extends StatelessWidget {
                           icon: Icon(Icons.clear, color: Colors.white),
                         ),
                         filled: false,
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0x50FFFFFF)
                             )
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0x50FFFFFF)
                             )
