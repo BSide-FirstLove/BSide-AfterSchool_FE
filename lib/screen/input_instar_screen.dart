@@ -11,7 +11,7 @@ class InputInstarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _instarInputController = TextEditingController();
 
-    _InputCompletion() {
+    _inputCompletion() {
       Navigator.of(context).pop(_instarInputController.text);
     }
 
@@ -22,7 +22,7 @@ class InputInstarScreen extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           TextButton(
-              onPressed: _InputCompletion,
+              onPressed: _inputCompletion,
               child: Text(Strings.completion,
                   style: MyTextStyle.inputInstarAction)
           )

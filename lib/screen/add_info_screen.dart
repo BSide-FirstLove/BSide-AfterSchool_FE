@@ -19,15 +19,18 @@ class AddInfoScreen extends StatefulWidget {
 }
 
 class _AddInfoScreenState extends State<AddInfoScreen> {
-  late User _user;
   final _instarInputController = TextEditingController();
   final _jobInputController = TextEditingController();
   final _descriptionInputController = TextEditingController();
+  late User _user;
+  bool _validity = false;
 
   @override
   void initState() {
     super.initState();
-
+    _instarInputController.addListener(_checkValidity);
+    _jobInputController.addListener(_checkValidity);
+    _descriptionInputController.addListener(_checkValidity);
     _user = context.read<UserState>().user.first;
     print(_user.image);
   }
@@ -35,7 +38,28 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   @override
   void dispose() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle());
+    _instarInputController.dispose();
+    _jobInputController.dispose();
+    _descriptionInputController.dispose();
     super.dispose();
+  }
+
+  _checkValidity() {
+    if(_instarInputController.text.isNotEmpty &&
+        _jobInputController.text.isNotEmpty &&
+        _descriptionInputController.text.isNotEmpty) {
+      setState(() {
+        _validity = true;
+      });
+    }else {
+      setState(() {
+        _validity = false;
+      });
+    }
+  }
+
+  _resizeImage() {
+
   }
 
   _inputInstar() async {
@@ -46,9 +70,26 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     _instarInputController.text = instar;
   }
 
-  _clickNext() {
+  _clickCancel() {
     //  이전 페이지 제거 후 이동
     Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+  }
+
+  _clickOk() {
+    if(_validity) {
+      // 추가정보 api 통신 후 메인 페이지 이동
+      // Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+    }else {
+        String msg = "";
+        if(_instarInputController.text.isEmpty) {
+          msg = Strings.addInstarMsg1;
+        } else if(_jobInputController.text.isEmpty) {
+          msg = Strings.addInstarMsg2;
+        } else if(_descriptionInputController.text.isEmpty) {
+          msg = Strings.addInstarMsg3;
+        }
+        showMsg(context, msg);
+    }
   }
 
   @override
@@ -66,7 +107,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
             iconTheme: IconThemeData(color: Colors.white),
             actions: [
               TextButton(
-                  onPressed: _clickNext,
+                  onPressed: _clickOk,
                   child: Text(Strings.completion,
                       style: TextStyle(color: Colors.white)))
             ],
@@ -179,14 +220,14 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                 Expanded(
                                     child: SizedBox(
                                         height: 50.h,
-                                        child: myButton(MyColor.buttonGrey, "다음에", (){})
+                                        child: myButton(MyColor.buttonGrey, "다음에", _clickCancel)
                                     )
                                 ),
                                 SizedBox(width: 12.w),
                                 Expanded(
                                     child: SizedBox(
                                         height: 50.h,
-                                        child: myButton(Color(0xFF4F60F4), "확인", (){})
+                                        child: myButton(_validity ?MyColor.buttonValidity :Color(0xFF4F60F4), "확인", _clickOk)
                                     )
                                 ),
                                 // myButton(158.w, 50.h, MyColor.buttonGrey, "다음에", (){}),
@@ -206,15 +247,18 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                       children: [
                         Column(
                           children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 66.w,
+                            InkWell(
+                              onTap: _resizeImage,
                               child: CircleAvatar(
-                                radius: 63.w,
-                                backgroundImage: NetworkImage(_user.image),
+                                backgroundColor: Colors.white,
+                                radius: 66.w,
+                                child: CircleAvatar(
+                                  radius: 63.w,
+                                  backgroundImage: NetworkImage(_user.image),
+                                ),
                               ),
                             ),
-                            SizedBox(height: 10.h),
+                            SizedBox(height: 8.h),
                             Text(
                               _user.nickname,
                               style: MyTextStyle.addInfoName,
@@ -224,10 +268,14 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                         Positioned(
                           top: 104.h,
                           right: 7.w,
-                          child: CircleAvatar(
-                              backgroundColor: Color(0xFF4F60F4),
-                              radius: 14.w,
-                              child: Icon(Icons.camera_alt_outlined, size: 18)),
+                          child: InkWell(
+                            onTap: _resizeImage,
+                            child: CircleAvatar(
+                                backgroundColor: Color(0xFF4F60F4),
+                                radius: 14.w,
+                                child: Icon(Icons.camera_alt_outlined, size: 18)
+                            ),
+                          )
                         )
                       ],
                     )

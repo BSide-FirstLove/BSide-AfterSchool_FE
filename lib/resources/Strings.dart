@@ -28,10 +28,10 @@ class Strings {
   static const String addSchoolName = "학교명";
   static const String addSchoolStartYear = "입학년도";
   static const String addSchoolEndYear = "졸업년도";
-  static const String addSchoolMsg1 = "입학년도를 먼저 선택 해주세요.";
-  static const String addSchoolMsg2 = "학교명을 선택 해주세요.";
-  static const String addSchoolMsg3 = "입학년도를 선택 해주세요.";
-  static const String addSchoolMsg4 = "졸업년도를 선택 해주세요.";
+  static const String addSchoolMsg1 = "'입학년도'를 먼저 선택 해주세요.";
+  static const String addSchoolMsg2 = "'학교명'을 선택 해주세요.";
+  static const String addSchoolMsg3 = "'입학년도'를 선택 해주세요.";
+  static const String addSchoolMsg4 = "'졸업년도'를 선택 해주세요.";
   //  Add Info Screen
   static const String addSchoolPage = "3 / 3";
   static const String addInfoTitle1 = "가입이 완료되었어요!";
@@ -41,4 +41,7 @@ class Strings {
   static const String addInfoDescription = "하고싶은 말";
   //  Input Instar Screen
   static const String addInstarTitle = "인스타그램 ID";
+  static const String addInstarMsg1 = "'인스타그램 ID'를 입력 해주세요.";
+  static const String addInstarMsg2 = "'직업'을 입력 해주세요.";
+  static const String addInstarMsg3 = "'하고싶은 말'을 입력 해주세요.";
 }

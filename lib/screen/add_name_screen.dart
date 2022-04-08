@@ -132,7 +132,10 @@ class _AddNameScreenState extends State<AddNameScreen> {
                       decoration: InputDecoration(
                           errorText: _validity ?null :Strings.addNameErrorText,
                           suffixIcon: _validity
-                              ?Icon(Icons.cancel_outlined)
+                              ?IconButton(
+                                onPressed: () => _nameInputController.text = "",
+                                icon: Icon(Icons.cancel_outlined),
+                              )
                               :Icon(Icons.info, color: Colors.red)
                       ),
                     ),
@@ -149,7 +152,7 @@ class _AddNameScreenState extends State<AddNameScreen> {
                   Expanded(
                     child: SizedBox(
                       height: 50.h,
-                      child: myButton(_validity? Colors.black :MyColor.buttonGrey, "다음", _clickNext),
+                      child: myButton(_validity? MyColor.buttonValidity :MyColor.buttonGrey, "다음", _clickNext),
                     ),
                   )
                 ],

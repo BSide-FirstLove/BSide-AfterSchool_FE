@@ -24,8 +24,6 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
   final _startInputController = TextEditingController();
   final _endInputController = TextEditingController();
   late String _placeId;
-  int? _enterYear;
-  int? _endYear;
   bool _validity = false;
 
   @override
@@ -127,11 +125,11 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
     //   }
     // }else {
     //   String msg = "";
-    //   if(_schoolNameInputController.text.isEmpty){
+    //   if(_schoolNameInputController.text.isEmpty) {
     //     msg = Strings.addSchoolMsg2;
-    //   } else if(_startInputController.text.isEmpty){
+    //   } else if(_startInputController.text.isEmpty) {
     //     msg = Strings.addSchoolMsg3;
-    //   } else if(_endInputController.text.isEmpty){
+    //   } else if(_endInputController.text.isEmpty) {
     //     msg = Strings.addSchoolMsg4;
     //   }
     //   showMsg(context, msg);
@@ -259,7 +257,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                   Expanded(
                     child: SizedBox(
                       height: 50.h,
-                      child: myButton(_validity? Colors.black :MyColor.buttonGrey, "다음", _clickNext),
+                      child: myButton(_validity? MyColor.buttonValidity :MyColor.buttonGrey, "다음", _clickNext),
                     ),
                   )
                 ],
