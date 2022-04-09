@@ -1,18 +1,18 @@
-import 'package:after_school/model/api/ModelResponse.dart';
-import 'package:after_school/model/state.dart';
-import 'package:after_school/resources/MyTextStyle.dart';
-import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
-import 'package:after_school/util/MyHttp.dart';
-import 'package:after_school/util/MyWidget.dart';
+import 'package:after_school/common/model/api/Login.dart';
+import 'package:after_school/common/model/api/ModelResponse.dart';
+import 'package:after_school/common/model/state.dart';
+import 'package:after_school/common/resources/MyTextStyle.dart';
+import 'package:after_school/common/resources/Strings.dart';
+import 'package:after_school/common/util/MyScreenUtil.dart';
+import 'package:after_school/common/util/MyHttp.dart';
+import 'package:after_school/common/util/MyWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
-import 'package:after_school/model/user.dart' as my_user;
+import 'package:after_school/common/model/user.dart' as my_user;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../model/api/Login.dart';
-import '../home_screen.dart';
+import '../main/home_screen.dart';
 import 'add_name_screen.dart';
 
 class LoginScreen extends StatefulWidget {

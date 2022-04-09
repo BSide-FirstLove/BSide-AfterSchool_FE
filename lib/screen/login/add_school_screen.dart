@@ -1,14 +1,14 @@
-import 'package:after_school/model/api/Join.dart';
-import 'package:after_school/resources/MyColor.dart';
-import 'package:after_school/resources/MyTextStyle.dart';
-import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/util/MyHttp.dart';
-import 'package:after_school/util/MyWidget.dart';
+import 'package:after_school/common/model/api/Join.dart';
+import 'package:after_school/common/resources/MyColor.dart';
+import 'package:after_school/common/resources/MyTextStyle.dart';
+import 'package:after_school/common/resources/Strings.dart';
+import 'package:after_school/common/util/MyHttp.dart';
+import 'package:after_school/common/util/MyWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/common/util/MyScreenUtil.dart';
 
 import 'add_info_screen.dart';
 

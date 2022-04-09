@@ -1,8 +1,8 @@
-import 'package:after_school/resources/MyTextStyle.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/common/resources/MyTextStyle.dart';
+import 'package:after_school/common/util/MyScreenUtil.dart';
+import 'package:after_school/common/resources/Strings.dart';
 import 'package:flutter/material.dart';
 
-import '../../resources/Strings.dart';
 
 class InputInstarScreen extends StatelessWidget {
   const InputInstarScreen({Key? key}) : super(key: key);
