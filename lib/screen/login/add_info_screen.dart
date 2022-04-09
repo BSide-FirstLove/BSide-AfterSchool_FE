@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
-import 'input_instar_screen.dart';
+import 'addInfo/input_instar_screen.dart';
 
 class AddInfoScreen extends StatefulWidget {
   const AddInfoScreen({Key? key}) : super(key: key);
