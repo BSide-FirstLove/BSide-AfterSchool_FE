@@ -7,30 +7,41 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageScreen extends StatefulWidget {
-  const SelectImageScreen({Key? key, required this.image}) : super(key: key);
-  final image;
+  const SelectImageScreen({Key? key, required this.isNetworkImg, required this.imageData}) : super(key: key);
+  final bool isNetworkImg;
+  final dynamic imageData;
 
   @override
   State<StatefulWidget> createState() => _SelectImageScreenState();
 }
 
 class _SelectImageScreenState extends State<SelectImageScreen> {
-  bool _isNetworkImg = true;
+  late bool _isNetworkImg;
   bool _buttonSwitch = false;
-
   XFile? _imageFile;
   dynamic _pickImageError;
   final ImagePicker _picker = ImagePicker();
 
+  @override
+  void initState() {
+    super.initState();
+    _isNetworkImg = widget.isNetworkImg;
+    if(!_isNetworkImg){
+      _imageFile = widget.imageData;
+    }
+  }
+
   Future<void> _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {
     try {
+      _imageFile = null;
       final XFile? pickedFile = await _picker.pickImage(
         source: source,
       );
       setState(() {
         _imageFile = pickedFile;
       });
+        _isNetworkImg = false;
     } catch (e) {
       setState(() {
         _pickImageError = e;
@@ -39,23 +50,25 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
   }
 
   Widget _previewImages() {
-    if (_imageFile != null) {
-      return Semantics(
-        label: 'image_picker_example_picked_image',
-        child: kIsWeb
+    if(_isNetworkImg){
+      return Image.network(widget.imageData, fit: BoxFit.fill);
+    }else{
+      if (_imageFile != null) {
+        return kIsWeb
             ? Image.network(_imageFile!.path, fit: BoxFit.fill)
-            : Image.file(File(_imageFile!.path), fit: BoxFit.fill),
-      );
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return const Text(
-        'You have not yet picked an image.',
-        textAlign: TextAlign.center,
-      );
+            : Image.file(File(_imageFile!.path), fit: BoxFit.fill);
+      } else if (_pickImageError != null) {
+        return Center(
+          child: Text(
+            'Pick image error: $_pickImageError',
+            textAlign: TextAlign.center,
+          )
+        );
+      } else {
+        return Center(
+            child: Text('알 수 없는 오류입니다.')
+        );
+      }
     }
   }
 
@@ -63,6 +76,17 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
     setState(() {
       _buttonSwitch = !_buttonSwitch;
     });
+  }
+
+  _clickEditImage() async {
+    //네트워크이미지or선택이미지 확인후 네트워크일시 파일변환 후 데이터 들고 이동
+
+    // _imageFile = await Navigator.of(context).push(
+    //     MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
+    // );
+    // setState(() {
+    //   _imageFile;
+    // });
   }
 
   @override
@@ -105,6 +129,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                           InkWell(
                             onTap: () {
                               _clickButton();
+                              _clickEditImage();
                             },
                             child: Text("편집",
                                 style: MyTextStyle.selectImageButton),
@@ -128,7 +153,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               margin: EdgeInsets.only(left: 22.w, right: 22.w)),
                           InkWell(
                             onTap: () {
-                              _clickButton;
+                              _clickButton();
                               _onImageButtonPressed(ImageSource.camera, context: context);
                             },
                             child: Text("카메라로 촬영",
@@ -140,7 +165,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               margin: EdgeInsets.only(left: 22.w, right: 22.w)),
                           InkWell(
                             onTap: () {
-                              _clickButton;
+                              _clickButton();
                             },
                             child: Text("프로필 사진 삭제",
                                 style: MyTextStyle.selectImageButtonRed),

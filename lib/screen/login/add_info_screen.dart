@@ -28,6 +28,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   final _descriptionInputController = TextEditingController();
   late User _user;
   bool _validity = false;
+  dynamic _profileImage;
 
 
   @override
@@ -64,9 +65,15 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   }
 
   _selectImage() async {
-    XFile? image = await Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => SelectImageScreen(image: null,))
-    );
+    if(_profileImage == null){
+      _profileImage = await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
+      );
+    }else{
+      _profileImage = await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: false, imageData: _profileImage))
+      );
+    }
   }
 
   _inputInstar() async {
