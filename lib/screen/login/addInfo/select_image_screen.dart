@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:after_school/common/resources/MyTextStyle.dart';
 import 'package:after_school/common/util/MyScreenUtil.dart';
-import 'package:after_school/common/util/MyWidget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SelectImageScreen extends StatefulWidget {
   const SelectImageScreen({Key? key, required this.image}) : super(key: key);
@@ -15,7 +17,53 @@ class SelectImageScreen extends StatefulWidget {
 class _SelectImageScreenState extends State<SelectImageScreen> {
   bool _isNetworkImg = true;
   bool _buttonSwitch = false;
-  double _height = 0;
+
+  XFile? _imageFile;
+  dynamic _pickImageError;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _onImageButtonPressed(ImageSource source,
+      {BuildContext? context}) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+      );
+      setState(() {
+        _imageFile = pickedFile;
+      });
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+    }
+  }
+
+  Widget _previewImages() {
+    if (_imageFile != null) {
+      return Semantics(
+        label: 'image_picker_example_picked_image',
+        child: kIsWeb
+            ? Image.network(_imageFile!.path, fit: BoxFit.fill)
+            : Image.file(File(_imageFile!.path), fit: BoxFit.fill),
+      );
+    } else if (_pickImageError != null) {
+      return Text(
+        'Pick image error: $_pickImageError',
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return const Text(
+        'You have not yet picked an image.',
+        textAlign: TextAlign.center,
+      );
+    }
+  }
+
+  _clickButton() {
+    setState(() {
+      _buttonSwitch = !_buttonSwitch;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +80,9 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
         body: Stack(
           children: [
             SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: Image.asset("assets/images/imgTest.png", fit: BoxFit.fill),
-            ),
+                width: double.infinity,
+                height: double.infinity,
+                child: _previewImages()),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -48,7 +95,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                       margin:
                           EdgeInsets.only(left: 10.w, right: 10.w, bottom: 8.h),
                       width: double.infinity,
-                      height: _height,
+                      height: _buttonSwitch ?223.h :0,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
@@ -56,7 +103,9 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              _clickButton();
+                            },
                             child: Text("편집",
                                 style: MyTextStyle.selectImageButton),
                           ),
@@ -66,7 +115,10 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               color: Color(0xFFE1E1E1),
                               margin: EdgeInsets.only(left: 22.w, right: 22.w)),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              _clickButton();
+                              _onImageButtonPressed(ImageSource.gallery, context: context);
+                            },
                             child: Text("사진첩에서 선택",
                                 style: MyTextStyle.selectImageButton),
                           ),
@@ -75,7 +127,10 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               color: Color(0xFFE1E1E1),
                               margin: EdgeInsets.only(left: 22.w, right: 22.w)),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              _clickButton;
+                              _onImageButtonPressed(ImageSource.camera, context: context);
+                            },
                             child: Text("카메라로 촬영",
                                 style: MyTextStyle.selectImageButton),
                           ),
@@ -84,7 +139,9 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               color: Color(0xFFE1E1E1),
                               margin: EdgeInsets.only(left: 22.w, right: 22.w)),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              _clickButton;
+                            },
                             child: Text("프로필 사진 삭제",
                                 style: MyTextStyle.selectImageButtonRed),
                           ),
@@ -116,12 +173,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 20)),
-                                onPressed: () {
-                                  setState(() {
-                                    _height == 0 ? _height = 223 : _height = 0;
-                                    _buttonSwitch = !_buttonSwitch;
-                                  });
-                                },
+                                onPressed: _clickButton,
                               )),
                         )
                       ],
