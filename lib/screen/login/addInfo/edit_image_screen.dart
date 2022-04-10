@@ -51,6 +51,7 @@ class _EditImageScreenState extends State<EditImageScreen> {
                     cropRectPadding: const EdgeInsets.all(20.0),
                     hitTestSize: 30.0,
                     cornerColor: Colors.red,
+                    // cropLayerPainter: CustomEditorCropLayerPainter()
                     // lineColor: Colors.red,
                   );
                 },
@@ -113,3 +114,75 @@ class _EditImageScreenState extends State<EditImageScreen> {
     );
   }
 }
+
+
+
+
+
+
+//  코너 둥근모양
+// class CustomEditorCropLayerPainter extends EditorCropLayerPainter {
+//   const CustomEditorCropLayerPainter();
+//   @override
+//   void paintCorners(
+//       Canvas canvas, Size size, ExtendedImageCropLayerPainter painter) {
+//     final Paint paint = Paint()
+//       ..color = painter.cornerColor
+//       ..style = PaintingStyle.fill;
+//     final Rect cropRect = painter.cropRect;
+//     const double radius = 6;
+//     canvas.drawCircle(Offset(cropRect.left, cropRect.top), radius, paint);
+//     canvas.drawCircle(Offset(cropRect.right, cropRect.top), radius, paint);
+//     canvas.drawCircle(Offset(cropRect.left, cropRect.bottom), radius, paint);
+//     canvas.drawCircle(Offset(cropRect.right, cropRect.bottom), radius, paint);
+//   }
+// }
+//
+// //  둥근 이미지
+// class CircleEditorCropLayerPainter extends EditorCropLayerPainter {
+//   const CircleEditorCropLayerPainter();
+//
+//   @override
+//   void paintCorners(
+//       Canvas canvas, Size size, ExtendedImageCropLayerPainter painter) {
+//     final Paint paint = Paint()
+//       ..color = painter.cornerColor
+//       ..style = PaintingStyle.fill;
+//     final Rect cropRect = painter.cropRect;
+//     const double radius = 6;
+//     canvas.drawCircle(Offset(cropRect.left, cropRect.top), radius, paint);
+//     canvas.drawCircle(Offset(cropRect.right, cropRect.top), radius, paint);
+//     canvas.drawCircle(Offset(cropRect.left, cropRect.bottom), radius, paint);
+//     canvas.drawCircle(Offset(cropRect.right, cropRect.bottom), radius, paint);
+//   }
+//
+//   @override
+//   void paintMask(
+//       Canvas canvas, Size size, ExtendedImageCropLayerPainter painter) {
+//     final Rect rect = Offset.zero & size;
+//     final Rect cropRect = painter.cropRect;
+//     final Color maskColor = painter.maskColor;
+//     canvas.saveLayer(rect, Paint());
+//     canvas.drawRect(
+//         rect,
+//         Paint()
+//           ..style = PaintingStyle.fill
+//           ..color = maskColor);
+//     canvas.drawCircle(cropRect.center, cropRect.width / 2.0,
+//         Paint()..blendMode = BlendMode.clear);  //clear
+//     canvas.restore();
+//   }
+//
+//   //  격자
+//   @override
+//   void paintLines(
+//       Canvas canvas, Size size, ExtendedImageCropLayerPainter painter) {
+//     final Rect cropRect = painter.cropRect;
+//     if (painter.pointerDown) {
+//       canvas.save();
+//       canvas.clipPath(Path()..addOval(cropRect));
+//       super.paintLines(canvas, size, painter);
+//       canvas.restore();
+//     }
+//   }
+// }

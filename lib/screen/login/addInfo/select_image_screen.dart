@@ -6,6 +6,7 @@ import 'package:after_school/common/util/MyScreenUtil.dart';
 import 'package:after_school/screen/login/addInfo/edit_image_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageScreen extends StatefulWidget {
@@ -103,6 +104,9 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
         appBar: AppBar(
           //  뒤로가기 제거
           automaticallyImplyLeading: false,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarBrightness: Brightness.light
+          ),
           leading: null,
           backgroundColor: Colors.transparent,
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.clear))],

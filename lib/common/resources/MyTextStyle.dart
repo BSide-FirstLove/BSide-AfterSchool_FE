@@ -37,7 +37,7 @@ class MyTextStyle {
   //  input_instar_screen
   static const TextStyle inputInstarField =
     TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFFFB038), fontSize: 16);
-  //
+  //  select_image_screen
   static const TextStyle selectImageButton =
     TextStyle(fontWeight: FontWeight.w400, color: Colors.black, fontSize: 18);
   static const TextStyle selectImageButtonRed =
