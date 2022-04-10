@@ -18,13 +18,13 @@ class InputInstarScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(Strings.addInstarTitle, style: MyTextStyle.inputInstarTitle),
+        title: Text(Strings.addInstarTitle, style: MyTextStyle.appbarTitleWhite),
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           TextButton(
               onPressed: _inputCompletion,
               child: Text(Strings.completion,
-                  style: MyTextStyle.inputInstarAction)
+                  style: MyTextStyle.appbarActionWhite)
           )
         ],
       ),

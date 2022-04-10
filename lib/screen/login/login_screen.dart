@@ -5,7 +5,7 @@ import 'package:after_school/common/resources/MyTextStyle.dart';
 import 'package:after_school/common/resources/Strings.dart';
 import 'package:after_school/common/util/MyScreenUtil.dart';
 import 'package:after_school/common/util/MyHttp.dart';
-import 'package:after_school/common/util/MyWidget.dart';
+import 'package:after_school/common/widget/MyWidget.dart';
 import 'package:after_school/screen/login/add_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

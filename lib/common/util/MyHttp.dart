@@ -5,7 +5,7 @@ import 'package:after_school/common/model/api/Join.dart';
 import 'package:after_school/common/model/api/ModelResponse.dart';
 import 'package:after_school/common/model/api/UserUpdate.dart';
 import 'package:after_school/common/resources/Strings.dart';
-import 'package:after_school/common/util/MyWidget.dart';
+import 'package:after_school/common/widget/MyWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;

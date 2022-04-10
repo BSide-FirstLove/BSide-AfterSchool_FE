@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:after_school/common/resources/MyTextStyle.dart';
+import 'package:after_school/common/resources/Strings.dart';
 import 'package:after_school/common/util/MyScreenUtil.dart';
+import 'package:after_school/screen/login/addInfo/edit_image_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,13 +62,13 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
       } else if (_pickImageError != null) {
         return Center(
           child: Text(
-            'Pick image error: $_pickImageError',
-            textAlign: TextAlign.center,
+            Strings.selectImageErrorPick + _pickImageError,
           )
         );
       } else {
+        //  편집데이터 못가져옴
         return Center(
-            child: Text('알 수 없는 오류입니다.')
+            child: Text(Strings.selectImageErrorUnknown)
         );
       }
     }
@@ -81,12 +83,16 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
   _clickEditImage() async {
     //네트워크이미지or선택이미지 확인후 네트워크일시 파일변환 후 데이터 들고 이동
 
-    // _imageFile = await Navigator.of(context).push(
-    //     MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
-    // );
-    // setState(() {
-    //   _imageFile;
-    // });
+    _imageFile = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => EditImageScreen(imageFile: _imageFile!))
+    );
+    if(_imageFile == null) {
+    //  편집 데이터 가져오기 실패
+    }else{
+      // setState(() {
+      //   _imageFile;
+      // });
+    }
   }
 
   @override
@@ -131,7 +137,8 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               _clickButton();
                               _clickEditImage();
                             },
-                            child: Text("편집",
+                            child: Text(
+                                Strings.selectImageEdit,
                                 style: MyTextStyle.selectImageButton),
                           ),
                           // Container( height:1.h, color:Color(0xFFE1E1E1), margin: EdgeInsets.fromLTRB(22.w, 17.h, 22.w, 17.h)),
@@ -144,7 +151,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               _clickButton();
                               _onImageButtonPressed(ImageSource.gallery, context: context);
                             },
-                            child: Text("사진첩에서 선택",
+                            child: Text(Strings.selectImageGallery,
                                 style: MyTextStyle.selectImageButton),
                           ),
                           Container(
@@ -156,7 +163,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                               _clickButton();
                               _onImageButtonPressed(ImageSource.camera, context: context);
                             },
-                            child: Text("카메라로 촬영",
+                            child: Text(Strings.selectImageCamera,
                                 style: MyTextStyle.selectImageButton),
                           ),
                           Container(
@@ -167,7 +174,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                             onTap: () {
                               _clickButton();
                             },
-                            child: Text("프로필 사진 삭제",
+                            child: Text(Strings.selectImageDelete,
                                 style: MyTextStyle.selectImageButtonRed),
                           ),
                         ],
@@ -188,12 +195,12 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)))),
                                 child: _buttonSwitch
-                                    ? Text("취소",
+                                    ? Text(Strings.selectImageButtonCancel,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 20))
-                                    : Text("설정",
+                                    : Text(Strings.selectImageButtonSetting,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600,

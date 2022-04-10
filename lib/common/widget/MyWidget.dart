@@ -47,3 +47,27 @@ _makeData(int begin) {
   }
   return array;
 }
+
+class TextButtonWithIcon extends TextButton with MaterialButtonWithIconMixin {
+  TextButtonWithIcon({
+    Key? key,
+    required VoidCallback onPressed,
+    Clip clipBehavior = Clip.none,
+    FocusNode? focusNode,
+    required Widget icon,
+    required Widget label,
+  }) : super(
+    key: key,
+    onPressed: onPressed,
+    clipBehavior: clipBehavior,
+    focusNode: focusNode,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        icon,
+        const SizedBox(height: 5.0),
+        label,
+      ],
+    ),
+  );
+}
