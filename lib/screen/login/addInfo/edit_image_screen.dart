@@ -1,18 +1,18 @@
 import 'dart:io';
 
+import 'package:after_school/common/model/ImageModel.dart';
 import 'package:after_school/common/resources/MyTextStyle.dart';
 import 'package:after_school/common/resources/Strings.dart';
 import 'package:after_school/common/widget/MyWidget.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 /*
 * https://github.com/fluttercandies/extended_image
 */
 class EditImageScreen extends StatefulWidget {
-  const EditImageScreen({Key? key, required this.imageFile}) : super(key: key);
-  final XFile imageFile;
+  const EditImageScreen({Key? key, required this.imageState}) : super(key: key);
+  final ModelImageState imageState;
 
   @override
   State<StatefulWidget> createState() => _EditImageScreenState();
@@ -20,18 +20,27 @@ class EditImageScreen extends StatefulWidget {
 
 class _EditImageScreenState extends State<EditImageScreen> {
   final GlobalKey<ExtendedImageEditorState> editorKey =
-  GlobalKey<ExtendedImageEditorState>();
+      GlobalKey<ExtendedImageEditorState>();
+  late bool _isNetworkImage;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.imageState.type == ModelImageState.MEMORY
+        ? _isNetworkImage = false
+        : _isNetworkImage = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("이미지 편집",style: MyTextStyle.appbarTitleWhite),
+        title: Text("이미지 편집", style: MyTextStyle.appbarTitleWhite),
         backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           TextButton(
-            onPressed: (){},
+            onPressed: () {},
             child: Text(Strings.check, style: MyTextStyle.appbarActionWhite),
           )
         ],
@@ -39,30 +48,48 @@ class _EditImageScreenState extends State<EditImageScreen> {
       body: Column(
         children: [
           Expanded(
-              child: ExtendedImage.memory(
-                File(widget.imageFile.path).readAsBytesSync(),
-                fit: BoxFit.contain,
-                mode: ExtendedImageMode.editor,
-                enableLoadState: true,
-                extendedImageEditorKey: editorKey,
-                initEditorConfigHandler: (ExtendedImageState? state) {
-                  return EditorConfig(
-                    maxScale: 8.0,
-                    cropRectPadding: const EdgeInsets.all(20.0),
-                    hitTestSize: 30.0,
-                    cornerColor: Colors.red,
-                    // cropLayerPainter: CustomEditorCropLayerPainter()
-                    // lineColor: Colors.red,
-                  );
-                },
-                cacheRawData: true,
-              )
-          )
+              child: _isNetworkImage
+                  ? ExtendedImage.network(
+                      widget.imageState.image,
+                      fit: BoxFit.contain,
+                      mode: ExtendedImageMode.editor,
+                      enableLoadState: true,
+                      extendedImageEditorKey: editorKey,
+                      initEditorConfigHandler: (ExtendedImageState? state) {
+                        return EditorConfig(
+                          maxScale: 8.0,
+                          cropRectPadding: const EdgeInsets.all(20.0),
+                          hitTestSize: 30.0,
+                          cornerColor: Colors.red,
+                          // cropLayerPainter: CustomEditorCropLayerPainter()
+                          // lineColor: Colors.red,
+                        );
+                      },
+                      cacheRawData: true,
+                    )
+                  : ExtendedImage.file(
+                      File(widget.imageState.image.path),
+                      fit: BoxFit.contain,
+                      mode: ExtendedImageMode.editor,
+                      enableLoadState: true,
+                      extendedImageEditorKey: editorKey,
+                      initEditorConfigHandler: (ExtendedImageState? state) {
+                        return EditorConfig(
+                          maxScale: 8.0,
+                          cropRectPadding: const EdgeInsets.all(20.0),
+                          hitTestSize: 30.0,
+                          cornerColor: Colors.red,
+                          // cropLayerPainter: CustomEditorCropLayerPainter()
+                          // lineColor: Colors.red,
+                        );
+                      },
+                      cacheRawData: true,
+                    ))
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: BottomAppBar(
-        color: Colors.black,
+          color: Colors.black,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
@@ -114,11 +141,6 @@ class _EditImageScreenState extends State<EditImageScreen> {
     );
   }
 }
-
-
-
-
-
 
 //  코너 둥근모양
 // class CustomEditorCropLayerPainter extends EditorCropLayerPainter {

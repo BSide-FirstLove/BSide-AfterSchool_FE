@@ -5,60 +5,35 @@ import 'package:after_school/common/resources/MyTextStyle.dart';
 import 'package:after_school/common/resources/Strings.dart';
 import 'package:after_school/common/util/MyScreenUtil.dart';
 import 'package:after_school/screen/login/addInfo/edit_image_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageScreen extends StatefulWidget {
   const SelectImageScreen({Key? key, required this.imageState}) : super(key: key);
   final ModelImageState imageState;
-  // final dynamic imageData;
 
   @override
   State<StatefulWidget> createState() => _SelectImageScreenState();
 }
 
 class _SelectImageScreenState extends State<SelectImageScreen> {
-  // late bool _isNetworkImg;
   bool _buttonSwitch = false;
   XFile? _imageFile;
   dynamic _pickImageError;
   final ImagePicker _picker = ImagePicker();
 
-  @override
-  void initState() {
-    super.initState();
-    // _isNetworkImg = widget.isNetworkImg;
-    // if(!_isNetworkImg){
-    //   _imageFile = widget.imageData;
-    // }
-  }
-
   Future<void> _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {
-    // try {
-    //   _imageFile = null;
-    //   final XFile? pickedFile = await _picker.pickImage(
-    //     source: source,
-    //   );
-    //   setState(() {
-    //     _imageFile = pickedFile;
-    //   });
-    //     _isNetworkImg = false;
-    // } catch (e) {
-    //   setState(() {
-    //     _pickImageError = e;
-    //   });
-    // }
     try {
       final XFile? pickedFile = await _picker.pickImage(
         source: source,
       );
-      setState(() {
-        widget.imageState.image = pickedFile;
-        widget.imageState.type = ModelImageState.MEMORY;
-      });
+      if(pickedFile != null){
+        setState(() {
+          widget.imageState.image = pickedFile;
+          widget.imageState.type = ModelImageState.MEMORY;
+        });
+      }
     } catch (e) {
       setState(() {
         _pickImageError = e;
@@ -67,26 +42,6 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
   }
 
   Widget _previewImages() {
-    // if(_isNetworkImg){
-    //   return Image.network(widget.imageData, fit: BoxFit.fill);
-    // }else{
-    //   if (_imageFile != null) {
-    //     return kIsWeb
-    //         ? Image.network(_imageFile!.path, fit: BoxFit.fill)
-    //         : Image.file(File(_imageFile!.path), fit: BoxFit.fill);
-    //   } else if (_pickImageError != null) {
-    //     return Center(
-    //       child: Text(
-    //         Strings.selectImageErrorPick + _pickImageError,
-    //       )
-    //     );
-    //   } else {
-    //     //  편집데이터 못가져옴
-    //     return Center(
-    //         child: Text(Strings.selectImageErrorUnknown)
-    //     );
-    //   }
-    // }
     if(widget.imageState.image == null){
       return Center(
           child: Text(Strings.selectImageErrorLoad)
@@ -122,16 +77,10 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
   _clickEditImage() async {
     //네트워크이미지or선택이미지 확인후 네트워크일시 파일변환 후 데이터 들고 이동
 
-    _imageFile = await Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => EditImageScreen(imageFile: _imageFile!))
+    await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => EditImageScreen(imageState: widget.imageState))
     );
-    if(_imageFile == null) {
-    //  편집 데이터 가져오기 실패
-    }else{
-      // setState(() {
-      //   _imageFile;
-      // });
-    }
+    setState(() {});
   }
 
   @override

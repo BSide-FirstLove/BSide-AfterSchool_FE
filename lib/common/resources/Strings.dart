@@ -1,5 +1,6 @@
 class Strings {
   static const String next = "다음";
+  static const String next2 = "다음에";
   static const String completion = "완료";
   static const String check = "확인";
   //  Error

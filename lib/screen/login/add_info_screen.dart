@@ -31,8 +31,6 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   final _descriptionInputController = TextEditingController();
   late User _user;
   bool _validity = false;
-  // dynamic _profileImage;
-  // bool _defaultImage = false;
   late ModelImageState _imageState;
 
   @override
@@ -83,33 +81,10 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   }
 
   _selectImage() async {
-    // switch(_imageState.type) {
-    //   case ModelImageState.KAKAO :
-    //     _imageState.image =
-    //     break;
-    //   case ModelImageState.BASIC :
-    //     _imageState.image = ModelImageState.basicImage;
-    //     break;
-    //   case ModelImageState.MEMORY :
-    //     _imageState.image =
-    //     break;
-    // }
     await Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => SelectImageScreen(imageState: _imageState))
     );
     setState(() {});
-    // setState(() {
-    //   _imageState = result;
-    // });
-    // if(_profileImage == null){
-    //   _profileImage = await Navigator.of(context).push(
-    //       MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
-    //   );
-    // }else{
-    //   _profileImage = await Navigator.of(context).push(
-    //       MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: false, imageData: _profileImage))
-    //   );
-    // }
   }
 
   _inputInstar() async {
@@ -280,18 +255,16 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                 Expanded(
                                     child: SizedBox(
                                         height: 50.h,
-                                        child: myButton(MyColor.buttonGrey, "다음에", _clickCancel)
+                                        child: myButton(MyColor.buttonGrey, Strings.next2, _clickCancel)
                                     )
                                 ),
                                 SizedBox(width: 12.w),
                                 Expanded(
                                     child: SizedBox(
                                         height: 50.h,
-                                        child: myButton(_validity ?MyColor.buttonValidity :Color(0xFF4F60F4), "확인", _clickOk)
+                                        child: myButton(_validity ?MyColor.buttonValidity :Color(0xFF4F60F4), Strings.check, _clickOk)
                                     )
                                 ),
-                                // myButton(158.w, 50.h, MyColor.buttonGrey, "다음에", (){}),
-                                // myButton(158.w, 50.h, Color(0xFF4F60F4), "확인", (){})
                               ],
                             ),
                           )
