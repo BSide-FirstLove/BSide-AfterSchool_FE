@@ -7,7 +7,9 @@ import 'package:after_school/common/resources/Strings.dart';
 import 'package:after_school/common/util/MyHttp.dart';
 import 'package:after_school/common/util/MyScreenUtil.dart';
 import 'package:after_school/common/util/MyWidget.dart';
+import 'package:after_school/screen/login/addInfo/select_image_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -26,6 +28,8 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   final _descriptionInputController = TextEditingController();
   late User _user;
   bool _validity = false;
+  dynamic _profileImage;
+
 
   @override
   void initState() {
@@ -60,10 +64,16 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     }
   }
 
-  _resizeImage() async {
-    String image = await Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => InputInstarScreen())
-    );
+  _selectImage() async {
+    if(_profileImage == null){
+      _profileImage = await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
+      );
+    }else{
+      _profileImage = await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: false, imageData: _profileImage))
+      );
+    }
   }
 
   _inputInstar() async {
@@ -263,7 +273,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: _resizeImage,
+                              onTap: _selectImage,
                               child: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 radius: 66.w,
@@ -284,7 +294,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           top: 104.h,
                           right: 7.w,
                           child: InkWell(
-                            onTap: _resizeImage,
+                            onTap: _selectImage,
                             child: CircleAvatar(
                                 backgroundColor: Color(0xFF4F60F4),
                                 radius: 14.w,

@@ -19,7 +19,7 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => UserState(),
         child: MaterialApp(
-          theme: myThemeData(),
+          theme: myThemeData,
           // home: MyApp(),
           initialRoute: "/",
           routes: {
