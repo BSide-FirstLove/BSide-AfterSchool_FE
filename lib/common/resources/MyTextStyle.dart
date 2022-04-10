@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//  리소스 낭비이지 않을까
 class MyTextStyle {
   static const TextStyle bodyTextLarge1 =
     TextStyle(fontSize: 36, color: Color(0xFF2E2E2E), fontWeight: FontWeight.w400);
@@ -32,4 +33,9 @@ class MyTextStyle {
     TextStyle(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16);
   static const TextStyle inputInstarField =
     TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFFFB038), fontSize: 16);
+  //
+  static const TextStyle selectImageButton =
+    TextStyle(fontWeight: FontWeight.w400, color: Colors.black, fontSize: 18);
+  static const TextStyle selectImageButtonRed =
+  TextStyle(fontWeight: FontWeight.w400, color: Color(0xFFE64646), fontSize: 18);
 }

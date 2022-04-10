@@ -5,7 +5,7 @@ showMsg(BuildContext context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
 }
 
-Widget myButton(Color color, String text, onPressed) {
+Widget myButton(Color color, String text, VoidCallback onPressed) {
   return OutlinedButton(
     style: OutlinedButton.styleFrom(
         backgroundColor: color,
