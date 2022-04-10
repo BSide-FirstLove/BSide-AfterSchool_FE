@@ -1,10 +1,10 @@
-import 'package:after_school/resources/MyColor.dart';
-import 'package:after_school/resources/MyTextStyle.dart';
-import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/common/resources/MyColor.dart';
+import 'package:after_school/common/resources/MyTextStyle.dart';
+import 'package:after_school/common/resources/Strings.dart';
+import 'package:after_school/common/util/MyScreenUtil.dart';
+import 'package:after_school/common/widget/MyWidget.dart';
 import 'package:flutter/material.dart';
 
-import '../../util/MyWidget.dart';
 import 'add_school_screen.dart';
 
 class AddNameScreen extends StatefulWidget {

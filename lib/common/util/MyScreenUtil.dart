@@ -11,7 +11,7 @@ class MyScreenUtil {
   late Size uiSize;
   late double _screenWidth;
   late double _screenHeight;
-  late bool _minTextAdapt;  //  최소 너비, 높이에 따라 텍스트 조정
+  late bool _minTextAdapt;  //  너비와 높이의 최소값에 따라 텍스트 조정 여부
 
   MyScreenUtil._();
 

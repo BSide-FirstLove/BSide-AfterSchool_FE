@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-ThemeData myThemeData() {
-  return ThemeData(
+final myThemeData =
+  ThemeData(
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       titleTextStyle: TextStyle(color: Color(0xFFAEAEAE)),
@@ -35,4 +35,3 @@ ThemeData myThemeData() {
       // subtitle2: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, height: 1.2),
     ),
   );
-}

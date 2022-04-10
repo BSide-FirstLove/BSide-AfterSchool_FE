@@ -1,8 +1,8 @@
-import 'package:after_school/resources/MyTextStyle.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/common/resources/MyTextStyle.dart';
+import 'package:after_school/common/util/MyScreenUtil.dart';
+import 'package:after_school/common/resources/Strings.dart';
 import 'package:flutter/material.dart';
 
-import '../../resources/Strings.dart';
 
 class InputInstarScreen extends StatelessWidget {
   const InputInstarScreen({Key? key}) : super(key: key);
@@ -18,13 +18,13 @@ class InputInstarScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(Strings.addInstarTitle, style: MyTextStyle.inputInstarTitle),
+        title: Text(Strings.addInstarTitle, style: MyTextStyle.appbarTitleWhite),
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           TextButton(
               onPressed: _inputCompletion,
               child: Text(Strings.completion,
-                  style: MyTextStyle.inputInstarAction)
+                  style: MyTextStyle.appbarActionWhite)
           )
         ],
       ),

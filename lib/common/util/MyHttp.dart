@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:after_school/model/api/Join.dart';
-import 'package:after_school/model/api/ModelResponse.dart';
-import 'package:after_school/model/api/UserUpdate.dart';
-import 'package:after_school/resources/Strings.dart';
-import 'package:after_school/util/MyWidget.dart';
+import 'package:after_school/common/model/api/Join.dart';
+import 'package:after_school/common/model/api/ModelResponse.dart';
+import 'package:after_school/common/model/api/UserUpdate.dart';
+import 'package:after_school/common/resources/Strings.dart';
+import 'package:after_school/common/widget/MyWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -46,7 +46,7 @@ class MyHttp {
   }
 
   Future<ModelResponse> post(String url, dynamic data) async {
-    http.Response response =  await http.post(
+    http.Response response = await http.post(
         Uri.parse(baseUrl + url),
         headers: headers,
         body: jsonEncode(data));
@@ -58,12 +58,46 @@ class MyHttp {
       return ModelResponse.fromJson(json.decode(responseBody));
       return json.decode(responseBody)['data'];
     }
-    // else if(response.statusCode == 403) {
-    //   login(LoginReq(accessToken: kakaoToken));
-    // }
+    else if(response.statusCode == 403) {
+      bool flag = await refreshJwt();
+      if(flag) {
+        http.Response response2 = await http.post(
+            Uri.parse(baseUrl + url),
+            headers: headers,
+            body: jsonEncode(data));
+        print('Response2 status: ${response2.statusCode}');
+        var responseBody = utf8.decode(response2.bodyBytes);
+        print('Response2 body: $responseBody');
+        if (response2.statusCode == 200) {
+          return ModelResponse.fromJson(json.decode(responseBody));
+        }
+      }
+      throw Exception(Strings.error1);
+    }
     else {
       throw Exception(Strings.error1);
     }
+  }
+
+  Future<bool> refreshJwt() async {
+    http.Response response = await http.post(
+        Uri.parse(baseUrl + "auth/kakao"),
+        headers: headers,
+        body: jsonEncode(LoginReq(accessToken: kakaoToken).toJson()));
+    print('Response status: ${response.statusCode}');
+    var responseBody = utf8.decode(response.bodyBytes);
+    print('Response body: $responseBody');
+    if (response.statusCode == 200) {
+      ModelResponse modelResponse = ModelResponse.fromJson(json.decode(responseBody));
+      if(modelResponse.resultCode == CODE_SUCCESS) {
+        Login modelLogin = Login.fromJson(modelResponse.data);
+        if(!modelLogin.isNewMember) {
+          setJwtToken(modelLogin.appToken!);
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   Future<Login> login(LoginReq data) async {
