@@ -1,11 +1,11 @@
-import 'package:after_school/model/api/Login.dart';
-import 'package:after_school/model/api/ModelResponse.dart';
-import 'package:after_school/model/state.dart';
-import 'package:after_school/resources/Theme.dart';
-import 'package:after_school/screen/home_screen.dart';
+import 'package:after_school/common/model/api/Login.dart';
+import 'package:after_school/common/model/api/ModelResponse.dart';
+import 'package:after_school/common/model/state.dart';
+import 'package:after_school/common/resources/Theme.dart';
+import 'package:after_school/screen/main/home_screen.dart';
 import 'package:after_school/screen/login/login_screen.dart';
-import 'package:after_school/util/MyHttp.dart';
-import 'package:after_school/util/MyScreenUtil.dart';
+import 'package:after_school/common/util/MyHttp.dart';
+import 'package:after_school/common/util/MyScreenUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -19,7 +19,7 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => UserState(),
         child: MaterialApp(
-          theme: myThemeData(),
+          theme: myThemeData,
           // home: MyApp(),
           initialRoute: "/",
           routes: {

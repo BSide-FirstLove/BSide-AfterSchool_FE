@@ -33,11 +33,13 @@ dependencies:
   kakao_flutter_sdk_user: ^1.1.0 # 카카오 로그인
   flutter_dotenv: ^5.0.2 # .env
   provider: ^6.0.2 # 앱 상태값 관리
-  http: ^0.13.4
+  http: ^0.13.4 # http 통신
   shared_preferences: ^2.0.13 # 영구 저장소
-#  flutter_google_places_hoc081098: ^1.0.1 # 장소 자동 완성
   flutter_picker: ^2.0.3  # 년도선택
-  flutter_google_places:
+  image_picker: ^0.8.5
+  extended_image: ^6.0.2+1  # 이미지 편집,로딩 등 이미지 확장
+  image_editor: any # 이미지 편집시 네이티브 lib
+  flutter_google_places:  # 장소 자동 완성
     git:
       url: https://github.com/fluttercommunity/flutter_google_places
       ref: v0.3.2

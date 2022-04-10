@@ -1,6 +1,7 @@
 class Strings {
   static const String next = "다음";
   static const String completion = "완료";
+  static const String check = "확인";
   //  Error
   static const String error1 = "서버와 통신에 실패 하였습니다.";
   static const String errorLogin = "로그인에 실패 하였습니다.";
@@ -44,4 +45,18 @@ class Strings {
   static const String addInstarMsg1 = "'인스타그램 ID'를 입력 해주세요.";
   static const String addInstarMsg2 = "'직업'을 입력 해주세요.";
   static const String addInstarMsg3 = "'하고싶은 말'을 입력 해주세요.";
+  //  Select Image Screen
+  static const String selectImageErrorPick = "이미지 가져오기 오류: ";
+  static const String selectImageErrorUnknown = "알 수 없는 오류입니다.";
+  static const String selectImageEdit = "편집";
+  static const String selectImageGallery = "사진첩에서 선택";
+  static const String selectImageCamera = "카메라로 촬영";
+  static const String selectImageDelete = "프로필 사진 삭제";
+  static const String selectImageButtonCancel = "취소";
+  static const String selectImageButtonSetting = "설정";
+  //  Edit Image Screen
+  static const String editImageBottomFlip = "뒤집기";
+  static const String editImageBottomRotateLeft = "좌 회전";
+  static const String editImageBottomRotateRight = "우 회전";
+  static const String editImageBottomReset = "리셋";
 }

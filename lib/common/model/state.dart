@@ -1,7 +1,8 @@
 import 'dart:collection';
 
-import 'package:after_school/model/user.dart';
 import 'package:flutter/material.dart';
+
+import 'user.dart';
 
 class UserState extends ChangeNotifier {
   /// Internal, private state of the cart.
@@ -14,14 +15,14 @@ class UserState extends ChangeNotifier {
   /// cart from the outside.
   void add(User user) {
     _users.add(user);
-    // This call tells the widgets that are listening to this model to rebuild.
+    // This call tells the widgets that are listening to this common.model to rebuild.
     notifyListeners();
   }
 
   /// Removes all items from the cart.
   void removeAll() {
     _users.clear();
-    // This call tells the widgets that are listening to this model to rebuild.
+    // This call tells the widgets that are listening to this common.model to rebuild.
     notifyListeners();
   }
 
