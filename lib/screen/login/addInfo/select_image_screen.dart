@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:after_school/common/model/ImageModel.dart';
 import 'package:after_school/common/resources/MyTextStyle.dart';
 import 'package:after_school/common/resources/Strings.dart';
 import 'package:after_school/common/util/MyScreenUtil.dart';
@@ -10,16 +11,16 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageScreen extends StatefulWidget {
-  const SelectImageScreen({Key? key, required this.isNetworkImg, required this.imageData}) : super(key: key);
-  final bool isNetworkImg;
-  final dynamic imageData;
+  const SelectImageScreen({Key? key, required this.imageState}) : super(key: key);
+  final ModelImageState imageState;
+  // final dynamic imageData;
 
   @override
   State<StatefulWidget> createState() => _SelectImageScreenState();
 }
 
 class _SelectImageScreenState extends State<SelectImageScreen> {
-  late bool _isNetworkImg;
+  // late bool _isNetworkImg;
   bool _buttonSwitch = false;
   XFile? _imageFile;
   dynamic _pickImageError;
@@ -28,23 +29,36 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
   @override
   void initState() {
     super.initState();
-    _isNetworkImg = widget.isNetworkImg;
-    if(!_isNetworkImg){
-      _imageFile = widget.imageData;
-    }
+    // _isNetworkImg = widget.isNetworkImg;
+    // if(!_isNetworkImg){
+    //   _imageFile = widget.imageData;
+    // }
   }
 
   Future<void> _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {
+    // try {
+    //   _imageFile = null;
+    //   final XFile? pickedFile = await _picker.pickImage(
+    //     source: source,
+    //   );
+    //   setState(() {
+    //     _imageFile = pickedFile;
+    //   });
+    //     _isNetworkImg = false;
+    // } catch (e) {
+    //   setState(() {
+    //     _pickImageError = e;
+    //   });
+    // }
     try {
-      _imageFile = null;
       final XFile? pickedFile = await _picker.pickImage(
         source: source,
       );
       setState(() {
-        _imageFile = pickedFile;
+        widget.imageState.image = pickedFile;
+        widget.imageState.type = ModelImageState.MEMORY;
       });
-        _isNetworkImg = false;
     } catch (e) {
       setState(() {
         _pickImageError = e;
@@ -53,25 +67,49 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
   }
 
   Widget _previewImages() {
-    if(_isNetworkImg){
-      return Image.network(widget.imageData, fit: BoxFit.fill);
-    }else{
-      if (_imageFile != null) {
-        return kIsWeb
-            ? Image.network(_imageFile!.path, fit: BoxFit.fill)
-            : Image.file(File(_imageFile!.path), fit: BoxFit.fill);
-      } else if (_pickImageError != null) {
-        return Center(
+    // if(_isNetworkImg){
+    //   return Image.network(widget.imageData, fit: BoxFit.fill);
+    // }else{
+    //   if (_imageFile != null) {
+    //     return kIsWeb
+    //         ? Image.network(_imageFile!.path, fit: BoxFit.fill)
+    //         : Image.file(File(_imageFile!.path), fit: BoxFit.fill);
+    //   } else if (_pickImageError != null) {
+    //     return Center(
+    //       child: Text(
+    //         Strings.selectImageErrorPick + _pickImageError,
+    //       )
+    //     );
+    //   } else {
+    //     //  편집데이터 못가져옴
+    //     return Center(
+    //         child: Text(Strings.selectImageErrorUnknown)
+    //     );
+    //   }
+    // }
+    if(widget.imageState.image == null){
+      return Center(
+          child: Text(Strings.selectImageErrorLoad)
+      );
+    }
+    else if (_pickImageError != null) {
+      return Center(
           child: Text(
             Strings.selectImageErrorPick + _pickImageError,
           )
-        );
-      } else {
-        //  편집데이터 못가져옴
+      );
+    }
+    switch(widget.imageState.type) {
+      case ModelImageState.KAKAO :
+        return Image.network(widget.imageState.image, fit: BoxFit.fill);
+      case ModelImageState.BASIC :
+        return Image.network(widget.imageState.image, fit: BoxFit.fill);
+      case ModelImageState.MEMORY :
+        return Image.file(File(widget.imageState.image.path), fit: BoxFit.fill);
+      default :
         return Center(
             child: Text(Strings.selectImageErrorUnknown)
         );
-      }
     }
   }
 
@@ -104,12 +142,15 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
         appBar: AppBar(
           //  뒤로가기 제거
           automaticallyImplyLeading: false,
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarBrightness: Brightness.light
-          ),
-          leading: null,
           backgroundColor: Colors.transparent,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.clear))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.clear)
+            )
+          ],
         ),
         body: Stack(
           children: [
@@ -177,6 +218,10 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                           InkWell(
                             onTap: () {
                               _clickButton();
+                              setState(() {
+                                widget.imageState.type = ModelImageState.BASIC;
+                                widget.imageState.image = ModelImageState.basicImage;
+                              });
                             },
                             child: Text(Strings.selectImageDelete,
                                 style: MyTextStyle.selectImageButtonRed),

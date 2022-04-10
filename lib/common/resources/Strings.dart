@@ -48,6 +48,7 @@ class Strings {
   //  Select Image Screen
   static const String selectImageErrorPick = "이미지 가져오기 오류: ";
   static const String selectImageErrorUnknown = "알 수 없는 오류입니다.";
+  static const String selectImageErrorLoad = "이미지를 가져오는데 실패 하였습니다.";
   static const String selectImageEdit = "편집";
   static const String selectImageGallery = "사진첩에서 선택";
   static const String selectImageCamera = "카메라로 촬영";

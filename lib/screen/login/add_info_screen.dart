@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:after_school/common/model/ImageModel.dart';
 import 'package:after_school/common/model/api/UserUpdate.dart';
 import 'package:after_school/common/model/state.dart';
 import 'package:after_school/common/model/user.dart';
@@ -28,8 +31,9 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   final _descriptionInputController = TextEditingController();
   late User _user;
   bool _validity = false;
-  dynamic _profileImage;
-
+  // dynamic _profileImage;
+  // bool _defaultImage = false;
+  late ModelImageState _imageState;
 
   @override
   void initState() {
@@ -39,6 +43,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     _descriptionInputController.addListener(_checkValidity);
     _user = context.read<UserState>().user.first;
     print(_user.image);
+    _imageState = ModelImageState(type: ModelImageState.KAKAO, image: _user.image);
   }
 
   @override
@@ -64,16 +69,47 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     }
   }
 
-  _selectImage() async {
-    if(_profileImage == null){
-      _profileImage = await Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
-      );
-    }else{
-      _profileImage = await Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: false, imageData: _profileImage))
-      );
+  ImageProvider<Object> _loadImage() {
+    switch(_imageState.type) {
+      case ModelImageState.KAKAO :
+        return NetworkImage(_imageState.image);
+      case ModelImageState.BASIC :
+        return NetworkImage(_imageState.image);
+      case ModelImageState.MEMORY :
+        return FileImage(File(_imageState.image.path));
+      default :
+        return NetworkImage(ModelImageState.basicImage);
     }
+  }
+
+  _selectImage() async {
+    // switch(_imageState.type) {
+    //   case ModelImageState.KAKAO :
+    //     _imageState.image =
+    //     break;
+    //   case ModelImageState.BASIC :
+    //     _imageState.image = ModelImageState.basicImage;
+    //     break;
+    //   case ModelImageState.MEMORY :
+    //     _imageState.image =
+    //     break;
+    // }
+    await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => SelectImageScreen(imageState: _imageState))
+    );
+    setState(() {});
+    // setState(() {
+    //   _imageState = result;
+    // });
+    // if(_profileImage == null){
+    //   _profileImage = await Navigator.of(context).push(
+    //       MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: true, imageData: _user.image))
+    //   );
+    // }else{
+    //   _profileImage = await Navigator.of(context).push(
+    //       MaterialPageRoute(builder: (_) => SelectImageScreen(isNetworkImg: false, imageData: _profileImage))
+    //   );
+    // }
   }
 
   _inputInstar() async {
@@ -119,14 +155,13 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: Colors.transparent //상태바 투명
-            ),
+            // systemOverlayStyle: SystemUiOverlayStyle(
+            //     statusBarColor: Colors.transparent //상태바 투명
+            // ),
             backgroundColor: MyColor.loginYello,
             title: Text(Strings.addSchoolPage),
             iconTheme: IconThemeData(color: Colors.white),
@@ -279,7 +314,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                 radius: 66.w,
                                 child: CircleAvatar(
                                   radius: 63.w,
-                                  backgroundImage: NetworkImage(_user.image),
+                                  backgroundImage: _loadImage(),
                                 ),
                               ),
                             ),
