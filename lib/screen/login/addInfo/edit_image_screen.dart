@@ -25,24 +25,7 @@ class EditImageScreen extends StatefulWidget {
 class _EditImageScreenState extends State<EditImageScreen> {
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
-  late bool _isFileImage;
   bool _cropping = false;
-  // late String _networkImage;
-  // late File _fileImage;
-  // late Uint8List _test;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.imageState.type == ModelImageState.FILE
-        ? _isFileImage = true
-        : _isFileImage = false;
-    // if (_isNetworkImage) {
-    //   _networkImage = widget.imageState.image;
-    // } else {
-    //   _fileImage = widget.imageState.image;
-    // }
-  }
 
   Future<void> _cropImage() async {
     if (_cropping) {
@@ -122,7 +105,7 @@ class _EditImageScreenState extends State<EditImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("이미지 편집", style: MyTextStyle.appbarTitleWhite),
+        title: Text(Strings.editImageAppbarTitle, style: MyTextStyle.appbarTitleWhite),
         backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
         actions: [

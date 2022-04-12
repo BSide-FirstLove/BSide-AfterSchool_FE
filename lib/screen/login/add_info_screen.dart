@@ -150,9 +150,9 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
-            // systemOverlayStyle: SystemUiOverlayStyle(
-            //     statusBarColor: Colors.transparent //상태바 투명
-            // ),
+            systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent //상태바 투명
+            ),
             backgroundColor: MyColor.loginYello,
             title: Text(Strings.addSchoolPage),
             iconTheme: IconThemeData(color: Colors.white),

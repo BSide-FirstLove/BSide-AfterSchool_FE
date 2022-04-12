@@ -57,6 +57,7 @@ class Strings {
   static const String selectImageButtonCancel = "취소";
   static const String selectImageButtonSetting = "설정";
   //  Edit Image Screen
+  static const String editImageAppbarTitle = "이미지 편집";
   static const String editImageBottomFlip = "뒤집기";
   static const String editImageBottomRotateLeft = "좌 회전";
   static const String editImageBottomRotateRight = "우 회전";
