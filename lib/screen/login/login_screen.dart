@@ -69,10 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if(modelLogin.isNewMember) {
         Navigator.push(context, MaterialPageRoute(builder: (_) => AddNameScreen(nickname: modelLogin.nickname!)));
       }else{
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomeScreen()),
-        );
+        Navigator.pushReplacementNamed(context,'/main');
       }
     } catch(error) {
       showMsg(context, Strings.errorLogin);

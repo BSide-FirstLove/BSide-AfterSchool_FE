@@ -31,7 +31,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
       if(pickedFile != null){
         setState(() {
           widget.imageState.image = pickedFile;
-          widget.imageState.type = ModelImageState.MEMORY;
+          widget.imageState.type = ModelImageState.FILE;
         });
       }
     } catch (e) {
@@ -41,7 +41,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
     }
   }
 
-  Widget _previewImages() {
+  Widget _previewImage() {
     if(widget.imageState.image == null){
       return Center(
           child: Text(Strings.selectImageErrorLoad)
@@ -59,8 +59,10 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
         return Image.network(widget.imageState.image, fit: BoxFit.fill);
       case ModelImageState.BASIC :
         return Image.network(widget.imageState.image, fit: BoxFit.fill);
-      case ModelImageState.MEMORY :
+      case ModelImageState.FILE :
         return Image.file(File(widget.imageState.image.path), fit: BoxFit.fill);
+      case ModelImageState.EDIT :
+        return Image.memory(widget.imageState.image, fit: BoxFit.fill);
       default :
         return Center(
             child: Text(Strings.selectImageErrorUnknown)
@@ -106,7 +108,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
             SizedBox(
                 width: double.infinity,
                 height: double.infinity,
-                child: _previewImages()),
+                child: _previewImage()),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

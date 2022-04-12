@@ -73,10 +73,26 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
         return NetworkImage(_imageState.image);
       case ModelImageState.BASIC :
         return NetworkImage(_imageState.image);
-      case ModelImageState.MEMORY :
+      case ModelImageState.FILE :
         return FileImage(File(_imageState.image.path));
+      case ModelImageState.EDIT :
+        return MemoryImage(_imageState.image);
       default :
         return NetworkImage(ModelImageState.basicImage);
+    }
+  }
+  Widget _loadImage2() {
+    switch(_imageState.type) {
+      case ModelImageState.KAKAO :
+        return Image.network(_imageState.image, fit: BoxFit.fill);
+      case ModelImageState.BASIC :
+        return Image.network(_imageState.image, fit: BoxFit.fill);
+      case ModelImageState.FILE :
+        return Image.file(File(_imageState.image.path), fit: BoxFit.fill);
+      case ModelImageState.EDIT :
+        return Image.memory(_imageState.image, fit: BoxFit.fill);
+      default :
+        return Image.network(ModelImageState.basicImage);
     }
   }
 
@@ -282,13 +298,33 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           children: [
                             InkWell(
                               onTap: _selectImage,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 66.w,
-                                child: CircleAvatar(
-                                  radius: 63.w,
-                                  backgroundImage: _loadImage(),
+                              child: Container(
+                                width: 132.w,
+                                height: 132.w,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(3.0, 3.0),
+                                      // blurRadius: 10.0,
+                                      // spreadRadius: 1.0,
+                                    ),
+                                  ],
                                 ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    // borderRadius: BorderRadius.circular(100),
+                                      shape: BoxShape.circle,
+                                      color: Colors.black,
+                                    image: DecorationImage(
+                                      image: _loadImage(),
+                                      fit: BoxFit.fill
+                                    ),
+                                  ),
+                                )
                               ),
                             ),
                             SizedBox(height: 8.h),

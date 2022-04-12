@@ -39,6 +39,7 @@ dependencies:
   image_picker: ^0.8.5
   extended_image: ^6.0.2+1  # 이미지 편집,로딩 등 이미지 확장
   image_editor: any # 이미지 편집시 네이티브 lib
+  dio: ^4.0.6
   flutter_google_places:  # 장소 자동 완성
     git:
       url: https://github.com/fluttercommunity/flutter_google_places
