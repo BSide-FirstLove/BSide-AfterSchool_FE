@@ -18,7 +18,6 @@ class SelectImageScreen extends StatefulWidget {
 
 class _SelectImageScreenState extends State<SelectImageScreen> {
   bool _buttonSwitch = false;
-  XFile? _imageFile;
   dynamic _pickImageError;
   final ImagePicker _picker = ImagePicker();
 
@@ -33,6 +32,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
           widget.imageState.image = pickedFile;
           widget.imageState.type = ModelImageState.FILE;
         });
+        _editImage();
       }
     } catch (e) {
       setState(() {
@@ -76,7 +76,7 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
     });
   }
 
-  _clickEditImage() async {
+  _editImage() async {
     //네트워크이미지or선택이미지 확인후 네트워크일시 파일변환 후 데이터 들고 이동
 
     await Navigator.of(context).push(
@@ -121,27 +121,26 @@ class _SelectImageScreenState extends State<SelectImageScreen> {
                       margin:
                           EdgeInsets.only(left: 10.w, right: 10.w, bottom: 8.h),
                       width: double.infinity,
-                      height: _buttonSwitch ?223.h :0,
+                      height: _buttonSwitch ?200.h :0,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              _clickButton();
-                              _clickEditImage();
-                            },
-                            child: Text(
-                                Strings.selectImageEdit,
-                                style: MyTextStyle.selectImageButton),
-                          ),
-                          // Container( height:1.h, color:Color(0xFFE1E1E1), margin: EdgeInsets.fromLTRB(22.w, 17.h, 22.w, 17.h)),
-                          Container(
-                              height: 1.h,
-                              color: Color(0xFFE1E1E1),
-                              margin: EdgeInsets.only(left: 22.w, right: 22.w)),
+                          // InkWell(
+                          //   onTap: () {
+                          //     _clickButton();
+                          //     _clickEditImage();
+                          //   },
+                          //   child: Text(
+                          //       Strings.selectImageEdit,
+                          //       style: MyTextStyle.selectImageButton),
+                          // ),
+                          // Container(
+                          //     height: 1.h,
+                          //     color: Color(0xFFE1E1E1),
+                          //     margin: EdgeInsets.only(left: 22.w, right: 22.w)),
                           InkWell(
                             onTap: () {
                               _clickButton();

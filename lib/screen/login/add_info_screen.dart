@@ -321,7 +321,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                       color: Colors.black,
                                     image: DecorationImage(
                                       image: _loadImage(),
-                                      fit: BoxFit.fill
+                                      fit: BoxFit.cover
                                     ),
                                   ),
                                 )
